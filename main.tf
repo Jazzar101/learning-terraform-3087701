@@ -1,16 +1,3 @@
-
-resource "aws_instance" "test_instance" {
-  ami                         = "ami-0c17cb8e234335014"
-  instance_type               = var.instance_type
-  key_name                    = "test_key"
-  subnet_id                   = aws_subnet.test_subnet.id
-  associate_public_ip_address = true
-
-  tags = {
-    Name = "Test VMI"
-  }
-}
-
 resource "aws_vpc" "test_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -56,6 +43,7 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 resource "aws_security_group" "test_group" {
+  name   = "test_group"
   vpc_id = aws_vpc.test_vpc.id
 
   ingress {
@@ -85,3 +73,14 @@ resource "aws_key_pair" "test_key" {
   public_key = var.public_key
 }
 
+resource "aws_instance" "test_instance" {
+  ami                         = "ami-0c17cb8e234335014"
+  instance_type               = var.instance_type
+  key_name                    = "test_key"
+  subnet_id                   = aws_subnet.test_subnet.id
+  associate_public_ip_address = true
+  security_groups             = [aws_security_group.test_group.id]
+  tags = {
+    Name = "Test VMI"
+  }
+}
