@@ -92,14 +92,10 @@ resource "aws_instance" "test_instance" {
   }
 }
 
-data "templatefile" "ansible_inventory" {
-    template = "${path.module}/inventory.tpl"
-    vars = {
-        public_ip_addr = aws_instance.test_instance.public_ip_addr
-    }
-}
 
 resource "local_file" "inventory" {
-    content = data.templatefile.ansible_inventory
+    content = templatefile("${path.module}/inventory.tpl", {
+        server_ip_addr = aws_instance.test_instance.public_ip
+    })
     filename = "/etc/ansible/hosts"
 }
