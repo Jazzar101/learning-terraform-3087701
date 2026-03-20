@@ -54,6 +54,13 @@ resource "aws_security_group" "test_group" {
   }
 
   ingress {
+    from_port   = 2368
+    to_port     = 2368
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -83,4 +90,16 @@ resource "aws_instance" "test_instance" {
   tags = {
     Name = "Test VMI"
   }
+}
+
+data "templatefile" "ansible_inventory" {
+    template = "${path.module}/inventory.tpl"
+    vars = {
+        public_ip_addr = aws_instance.test_instance.public_ip_addr
+    }
+}
+
+resource "local_file" "inventory" {
+    content = data.templatefile.ansible_inventory
+    filename = "/etc/ansible/hosts"
 }
