@@ -1,0 +1,57 @@
+---
+- name: Install applications in Docker on AWS VMs
+  hosts: all
+  become: true
+  tasks:
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install Docker Components
+    package:
+      name:
+        - "docker.io"
+        - "docker-compose"
+      state: present
+
+  - name: Ensure Docker service is enabled and started
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Add ubuntu user to docker group
+    user:
+      name: ubuntu
+      groups: docker
+      append: yes
+
+    - name: Copy Over Database Docker Compose file
+        copy:
+            src: ./database/docker-compose.yml
+            dest: ./docker-compose.yml
+            owner: ubuntu
+         when: ansible_hostname in groups['database']
+
+    - name: Copy Over Web_App Docker Compose file
+        copy:
+            src: ./web_app/docker-compose.yml
+            dest: ./docker-compose.yml
+            owner: ubuntu
+        when: ansible_hostname in groups['web_app']
+
+  - name: Stop Existing Docker Containers
+    command:
+        cmd: "docker-compose down"
+        chdir: "/home/ubuntu"
+
+  - name: Run Docker Compose
+    command:
+        cmd: "docker-compose up -d"
+        chdir: "/home/ubuntu"
+    register: compose_logs
+
+  - debug:
+      var: compose_logs.stdout_lines

@@ -1,0 +1,42 @@
+---
+services:
+    database:
+        image: mysql:8.0
+        container_name: database
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: "ghost"
+            MYSQL_USER: "user"
+            MYSQL_ROOT_PASSWORD: "password123"
+            MYSQL_PASSWORD: "password123"
+        volumes:
+            - db_data:/var/lib/mysql
+
+    app:
+        image: ghost:latest
+        container_name: app
+        restart: always
+        ports:
+            - "2368:2368"
+        depends_on:
+            - database
+        environment:
+            database__client: "mysql"
+            database__connection__host: "database"
+            database__connection__user: "user"
+            database__connection__password: "password123"
+            database__connection__database: "ghost"
+        volumes:
+            - app_data:/var/lib/ghost/content
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://{server_ip_addr}:2368"]
+            interval: 30s
+            timeout: 5s
+            retries: 5
+
+
+volumes:
+    db_data:
+    app_data:
