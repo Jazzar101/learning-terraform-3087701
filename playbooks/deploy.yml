@@ -28,29 +28,29 @@
       groups: docker
       append: yes
 
-    - name: Copy Over Database Docker Compose file
-        copy:
-            src: ./database/docker-compose.yml
-            dest: ./docker-compose.yml
-            owner: ubuntu
-         when: ansible_hostname in groups['database']
+  - name: Copy Over Database Docker Compose file
+    copy:
+      src: ./database-docker-compose.yml
+      dest: ./docker-compose.yml
+      owner: ubuntu
+    when: inventory_hostname in groups['database']
 
-    - name: Copy Over Web_App Docker Compose file
-        copy:
-            src: ./web_app/docker-compose.yml
-            dest: ./docker-compose.yml
-            owner: ubuntu
-        when: ansible_hostname in groups['web_app']
+  - name: Copy Over Web_App Docker Compose file
+    copy:
+      src: ./web-app-docker-compose.yml
+      dest: ./docker-compose.yml
+      owner: ubuntu
+    when: inventory_hostname in groups['web_app']
 
   - name: Stop Existing Docker Containers
     command:
-        cmd: "docker-compose down"
-        chdir: "/home/ubuntu"
+      cmd: "docker-compose down"
+      chdir: "/home/ubuntu"
 
   - name: Run Docker Compose
     command:
-        cmd: "docker-compose up -d"
-        chdir: "/home/ubuntu"
+      cmd: "docker-compose up -d"
+      chdir: "/home/ubuntu"
     register: compose_logs
 
   - debug:

@@ -63,6 +63,13 @@ resource "aws_security_group" "main_group" {
   }
 
   ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -107,9 +114,18 @@ resource "aws_instance" "web_app_instance" {
 }
 
 resource "local_file" "inventory" {
-  content = templatefile("${path.module}/inventory.tpl", {
+  content = templatefile("${path.module}/templates/inventory.tpl", {
     database_public_ip = aws_instance.database_instance.public_ip
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
   })
   filename = "/etc/ansible/hosts"
 }
+
+resource "local_file" "compose" {
+  content = templatefile("${path.module}/templates/web-app-docker-compose.tpl", {
+    database_public_ip = aws_instance.database_instance.public_ip
+    web_app_public_ip  = aws_instance.web_app_instance.public_ip
+  })
+  filename = "./playbooks/web-app-docker-compose.yml"
+}
+
