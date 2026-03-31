@@ -12,6 +12,7 @@ services:
             database__connection__user: "user"
             database__connection__password: "password123"
             database__connection__database: "ghost"
+            url: "http://${web_app_public_ip}"
         volumes:
             - app_data:/var/lib/ghost/content
         healthcheck:
@@ -19,6 +20,17 @@ services:
             interval: 30s
             timeout: 5s
             retries: 5
+    
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        restart: always
+        ports:
+            - "80:80"
+        volumes:
+            - /home/ubuntu/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        depends_on:
+            - app
 
 volumes:
     app_data:

@@ -56,8 +56,8 @@ resource "aws_security_group" "main_group" {
   }
 
   ingress {
-    from_port   = 2368
-    to_port     = 2368
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -126,6 +126,6 @@ resource "local_file" "compose" {
     database_public_ip = aws_instance.database_instance.public_ip
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
   })
-  filename = "./playbooks/web-app-docker-compose.yml"
+  filename = "./files/web-app-docker-compose.yml"
 }
 

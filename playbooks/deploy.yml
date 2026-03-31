@@ -3,7 +3,7 @@
   hosts: all
   become: true
   tasks:
-  - name: Update and upgrade apt packages
+  - name: Update And Upgrade Apt Packages
     apt:
       upgrade: yes
       update_cache: yes
@@ -16,13 +16,13 @@
         - "docker-compose"
       state: present
 
-  - name: Ensure Docker service is enabled and started
+  - name: Ensure Docker Service Is Enabled And Started
     service:
       name: docker
       state: started
       enabled: yes
 
-  - name: Add ubuntu user to docker group
+  - name: Add Ubuntu User To Docker Group
     user:
       name: ubuntu
       groups: docker
@@ -30,16 +30,23 @@
 
   - name: Copy Over Database Docker Compose file
     copy:
-      src: ./database-docker-compose.yml
+      src: ../files/database-docker-compose.yml
       dest: ./docker-compose.yml
       owner: ubuntu
+      force: true
     when: inventory_hostname in groups['database']
 
-  - name: Copy Over Web_App Docker Compose file
+  - name: Copy Over Web_App Files
     copy:
-      src: ./web-app-docker-compose.yml
-      dest: ./docker-compose.yml
+      src: "{{ item.src }}"
+      dest: "/home/ubuntu/{{ item.dest }}"
       owner: ubuntu
+      force: true
+    loop:
+      - src: ../files/web-app-docker-compose.yml
+        dest: docker-compose.yml
+      - src: ../files/nginx.conf
+        dest: nginx.conf
     when: inventory_hostname in groups['web_app']
 
   - name: Stop Existing Docker Containers
@@ -51,7 +58,3 @@
     command:
       cmd: "docker-compose up -d"
       chdir: "/home/ubuntu"
-    register: compose_logs
-
-  - debug:
-      var: compose_logs.stdout_lines
