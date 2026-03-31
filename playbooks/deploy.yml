@@ -49,6 +49,13 @@
         dest: nginx.conf
     when: inventory_hostname in groups['web_app']
 
+  - name: Copy Over Test Files
+    copy:
+      src: ../files/run_test.py
+      dest: /home/ubuntu/
+      owner: ubuntu
+      force: true
+
   - name: Stop Existing Docker Containers
     command:
       cmd: "docker-compose down"
@@ -58,3 +65,4 @@
     command:
       cmd: "docker-compose up -d"
       chdir: "/home/ubuntu"
+

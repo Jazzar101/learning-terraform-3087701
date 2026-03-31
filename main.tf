@@ -113,10 +113,24 @@ resource "aws_instance" "web_app_instance" {
   }
 }
 
+resource "aws_instance" "api_test_instance" {
+  ami                         = "ami-0c17cb8e234335014"
+  instance_type               = var.instance_type
+  key_name                    = "id_rsa"
+  subnet_id                   = aws_subnet.main_subnet.id
+  associate_public_ip_address = true
+  security_groups             = [aws_security_group.main_group.id]
+  tags = {
+    Name = var.api_test_instance_name
+  }
+}
+
+
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/templates/inventory.tpl", {
     database_public_ip = aws_instance.database_instance.public_ip
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
+    api_test_public_ip  = aws_instance.api_test_instance.public_ip
   })
   filename = "/etc/ansible/hosts"
 }

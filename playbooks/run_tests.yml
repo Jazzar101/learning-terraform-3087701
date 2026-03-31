@@ -1,0 +1,15 @@
+---
+- name: Run API Tests Against Web App
+  hosts: api_tests
+  become: true
+  tasks:
+  - name: Install Python3
+    package:
+      name:
+        - "python3"
+      state: present
+
+  - name: Run API Python Tests
+    command:
+      cmd:
+      chdir:
