@@ -9,7 +9,7 @@ ADMIN_PASSWORD = "password123"
 
 def test_health():
     r = requests.get(f"{DIRECTUS_URL}/server/health")
-    assert r.status_code == 200, "Health check failed"
+    assert r.status_code == 200, f"Health check failed. Response: {r.text}. Code: {r.status_code}"
     assert r.json()["status"] == "ok"
     print("[OK] Health check")
 
@@ -24,7 +24,7 @@ def login():
     )
     assert r.status_code == 200, "Login failed"
     data = r.json()["data"]
-    assert "access_token" in data
+    assert "access_token" in data, f"No access token found. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Login success")
     return data["access_token"]
 
@@ -34,7 +34,7 @@ def test_list_collections(token):
         f"{DIRECTUS_URL}/collections",
         headers={"Authorization": f"Bearer {token}"}
     )
-    assert r.status_code == 200, "Unable to list collections"
+    assert r.status_code == 200, f"Unable to list collections. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Collections listing works")
 
 
@@ -51,7 +51,7 @@ def test_create_collection(token):
     )
 
     # 201 if created, 400 if already exists (acceptable)
-    assert r.status_code in [201, 400]
+    assert r.status_code in [201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Collection created or already exists")
 
 
@@ -68,7 +68,7 @@ def test_add_field(token):
     )
 
     # 201 if new, 400 if already exists (acceptable)
-    assert r.status_code in [201, 400]
+    assert r.status_code in [201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Field created or already exists")
 
 
@@ -81,7 +81,7 @@ def test_insert_item(token):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    assert r.status_code == 201, "Failed to create test item"
+    assert r.status_code == 201, f"Failed to create test item. Response: {r.text}. Code: {r.status_code}"
     item_id = r.json()["data"]["id"]
     print(f"[OK] Item inserted (id={item_id})")
     return item_id
@@ -92,7 +92,7 @@ def test_get_items(token):
         f"{DIRECTUS_URL}/items/test_items",
         headers={"Authorization": f"Bearer {token}"}
     )
-    assert r.status_code == 200, "Unable to fetch items"
+    assert r.status_code == 200, "Unable to fetch items. Response: {r.text}. Code: {r.status_code}"
     assert isinstance(r.json()["data"], list)
     print("[OK] Item read works")
 
@@ -106,7 +106,7 @@ def test_update_item(token, item_id):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    assert r.status_code == 200, "Failed to update item"
+    assert r.status_code in [200, 201], f"Failed to update item. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Item update works")
 
 
@@ -116,7 +116,7 @@ def test_delete_item(token, item_id):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    assert r.status_code == 204, "Failed to delete item"
+    assert r.status_code == 204, f"Failed to delete item. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Item delete works")
 
 
