@@ -1,6 +1,6 @@
 ---
 - name: Run API Tests Against Web App
-  hosts: api_tests
+  hosts: tests
   become: true
   tasks:
   - name: Install Python3
@@ -11,5 +11,8 @@
 
   - name: Run API Python Tests
     command:
-      cmd:
-      chdir:
+      cmd: python3 run_tests.py
+      chdir: /home/ubuntu/
+
+  vars:
+    content_api_key: "${content_api_key}"    

@@ -7,12 +7,10 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: "ghost"
+            MYSQL_DATABASE: "directus"
             MYSQL_USER: "user"
             MYSQL_ROOT_PASSWORD: "password123"
             MYSQL_PASSWORD: "password123"
         volumes:
-            - db_data:/var/lib/mysql
-
-volumes:
-    db_data:
+            - ./mysql-data:/var/lib/mysql
+            - ./init-admin.sql:/docker-entrypoint-initdb.d/init-admin.sql

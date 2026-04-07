@@ -13,7 +13,7 @@ variable "web_app_instance_name" {
 variable "api_test_instance_name" {
   description = "Name of the web app's EC2 instance name tag"
   type        = string
-  default     = "web_app"
+  default     = "Tests"
 }
 
 variable "instance_type" {

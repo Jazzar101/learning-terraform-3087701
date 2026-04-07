@@ -130,7 +130,7 @@ resource "local_file" "inventory" {
   content = templatefile("${path.module}/templates/inventory.tpl", {
     database_public_ip = aws_instance.database_instance.public_ip
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
-    api_test_public_ip  = aws_instance.api_test_instance.public_ip
+    api_test_public_ip = aws_instance.api_test_instance.public_ip
   })
   filename = "/etc/ansible/hosts"
 }
@@ -141,5 +141,12 @@ resource "local_file" "compose" {
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
   })
   filename = "./files/web-app-docker-compose.yml"
+}
+
+resource "local_file" "api_tests" {
+  content = templatefile("${path.module}/templates/run_tests.tpl", {
+    web_app_public_ip = aws_instance.web_app_instance.public_ip
+  })
+  filename = "./files/run_tests.py"
 }
 

@@ -2,7 +2,7 @@ import requests
 import json
 import sys
 
-DIRECTUS_URL = "http://3.8.151.167"
+DIRECTUS_URL = "http://${web_app_public_ip}"
 ADMIN_EMAIL = "admin@admin.com"
 ADMIN_PASSWORD = "password123"
 

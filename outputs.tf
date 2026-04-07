@@ -13,3 +13,7 @@ output "database_public_ip" {
 output "web_app_public_ip" {
   value = aws_instance.web_app_instance.public_ip
 }
+
+output "api_tests_public_ip" {
+  value = aws_instance.api_test_instance.public_ip
+}

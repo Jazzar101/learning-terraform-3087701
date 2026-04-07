@@ -1,36 +1,33 @@
 ---
 services:
-    app:
-        image: ghost:latest
-        container_name: app
-        restart: always
-        ports:
-            - "2368:2368"
-        environment:
-            database__client: "mysql"
-            database__connection__host: "${database_public_ip}"
-            database__connection__user: "user"
-            database__connection__password: "password123"
-            database__connection__database: "ghost"
-            url: "http://${web_app_public_ip}"
-        volumes:
-            - app_data:/var/lib/ghost/content
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://${web_app_public_ip}:2368"]
-            interval: 30s
-            timeout: 5s
-            retries: 5
-    
-    nginx:
-        image: nginx:latest
-        container_name: nginx
-        restart: always
-        ports:
-            - "80:80"
-        volumes:
-            - /home/ubuntu/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-        depends_on:
-            - app
+  app:
+    image: directus/directus
+    container_name: app
+    environment:
+      DB_CLIENT: "mysql"
+      DB_HOST: "${database_public_ip}"
+      DB_PORT: 3306
+      DB_USER: "user"
+      DB_PASSWORD: "password123"
+      DB_DATABASE: "directus"
 
-volumes:
-    app_data:
+      KEY: "mykey"
+      SECRET: "mysecret"
+
+      ADMIN_EMAIL: "admin@admin.com"
+      ADMIN_PASSWORD: "password123"
+    volumes:
+      - ./strapi-data:/srv/data
+    ports:
+      - "8055:8055"
+ 
+  nginx:
+      image: nginx:latest
+      container_name: nginx
+      restart: always
+      ports:
+          - "80:80"
+      volumes:
+          - /home/ubuntu/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      depends_on:
+          - app
