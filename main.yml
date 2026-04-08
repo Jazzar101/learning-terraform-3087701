@@ -1,0 +1,62 @@
+---
+- name: Provision Virtual Machines
+  hosts: localhost
+  tasks:
+    - name: Terraform Destroy
+      command:
+        cmd: terraform destroy --auto-approve
+        chdir: /home/jared/learning-terraform
+
+    - name: Terraform Plan
+      command:
+        cmd: terraform plan
+        chdir: /home/jared/learning-terraform
+      register: terraform_state
+
+    - name: Terraform State
+      debug:
+        var: terraform_state
+
+    - name: Terraform Apply
+      command:
+        cmd: terraform apply --auto-approve
+        chdir: /home/jared/learning-terraform
+
+    - name: Refresh Inventory
+      meta: refresh_inventory
+
+- name: Update All Machines
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+
+    - name: Wait For All Instances
+      wait_for_connection:
+        delay: 5
+        timeout: 180
+
+    - name: Update And Upgrade Apt Packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
+
+- name: Deploy Services
+  hosts: web_app, database
+  become: true
+  tasks:
+
+    - name: Call Deploy Services Roles
+      include_role:
+        name: deploy_services
+        tasks_from: main.yml
+    
+- name: Run Tests
+  hosts: tests
+  become: true
+  tasks:
+    - name: Run Tests
+      include_role:
+        name: run_tests
+        tasks_from: main.yml

@@ -1,0 +1,50 @@
+---
+  - name: Install Docker Components
+    package:
+      name:
+        - "docker.io"
+        - "docker-compose"
+      state: present
+
+  - name: Ensure Docker Service Is Enabled And Started
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Add Ubuntu User To Docker Group
+    user:
+      name: ubuntu
+      groups: docker
+      append: yes
+
+  - name: Copy Over Database Files
+    copy:
+      src: ../files/database-docker-compose.yml
+      dest: "/home/ubuntu/docker-compose.yml"
+      owner: ubuntu
+      force: true
+    when: inventory_hostname in groups['database']
+
+  - name: Copy Over Web App Files
+    copy:
+      src: "{{ item.src }}"
+      dest: "/home/ubuntu/{{ item.dest }}"
+      owner: ubuntu
+      force: true
+    loop:
+      - src: ../files/app-docker-compose.yml
+        dest: docker-compose.yml
+      - src: ../files/nginx.conf
+        dest: nginx.conf
+    when: inventory_hostname in groups['web_app']
+
+  - name: Stop Existing Docker Containers
+    command:
+      cmd: "docker-compose down"
+      chdir: "/home/ubuntu"
+
+  - name: Run Docker Compose
+    command:
+      cmd: "docker-compose up -d"
+      chdir: "/home/ubuntu"

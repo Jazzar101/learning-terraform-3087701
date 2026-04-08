@@ -136,17 +136,24 @@ resource "local_file" "inventory" {
 }
 
 resource "local_file" "compose" {
-  content = templatefile("${path.module}/templates/web-app-docker-compose.tpl", {
+  content = templatefile("${path.module}/roles/deploy_services/templates/web-app-docker-compose.yml.tpl", {
     database_public_ip = aws_instance.database_instance.public_ip
     web_app_public_ip  = aws_instance.web_app_instance.public_ip
   })
-  filename = "./files/web-app-docker-compose.yml"
+  filename = "./roles/deploy_services/files/app-docker-compose.yml"
 }
 
-resource "local_file" "api_tests" {
-  content = templatefile("${path.module}/templates/run_tests.tpl", {
+resource "local_file" "api_tests_python" {
+  content = templatefile("${path.module}/roles/run_tests/templates/run_tests.py.tpl", {
     web_app_public_ip = aws_instance.web_app_instance.public_ip
   })
-  filename = "./files/run_tests.py"
+  filename = "./roles/run_tests/files/run_tests.py"
 }
+resource "local_file" "api_tests_tasks" {
+  content = templatefile("${path.module}/roles/run_tests/templates/main.yml.tpl", {
+    web_app_public_ip = aws_instance.web_app_instance.public_ip
+  })
+  filename = "./roles/run_tests/tasks/main.yml"
+}
+
 

@@ -3,6 +3,7 @@ services:
   app:
     image: directus/directus
     container_name: app
+    restart: always
     environment:
       DB_CLIENT: "mysql"
       DB_HOST: "${database_public_ip}"

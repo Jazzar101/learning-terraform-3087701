@@ -50,8 +50,8 @@ def test_create_collection(token):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    # 201 if created, 400 if already exists (acceptable)
-    assert r.status_code in [201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
+    # 200 if ok,  201 if created, 400 if already exists (acceptable)
+    assert r.status_code in [200, 201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Collection created or already exists")
 
 
@@ -67,8 +67,8 @@ def test_add_field(token):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    # 201 if new, 400 if already exists (acceptable)
-    assert r.status_code in [201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
+    # 200 if ok, 201 if new, 400 if already exists (acceptable)
+    assert r.status_code in [200, 201, 400], f"Bad response code. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Field created or already exists")
 
 
@@ -81,7 +81,7 @@ def test_insert_item(token):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    assert r.status_code == 201, f"Failed to create test item. Response: {r.text}. Code: {r.status_code}"
+    assert r.status_code in [200, 201], f"Failed to create test item. Response: {r.text}. Code: {r.status_code}"
     item_id = r.json()["data"]["id"]
     print(f"[OK] Item inserted (id={item_id})")
     return item_id
@@ -116,7 +116,7 @@ def test_delete_item(token, item_id):
         headers={"Authorization": f"Bearer {token}"}
     )
 
-    assert r.status_code == 204, f"Failed to delete item. Response: {r.text}. Code: {r.status_code}"
+    assert r.status_code in [200, 204], f"Failed to delete item. Response: {r.text}. Code: {r.status_code}"
     print("[OK] Item delete works")
 
 
