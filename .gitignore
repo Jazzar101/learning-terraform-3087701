@@ -1,2 +1,5 @@
 .terraform*
 terraform.tfstate*
+./roles/run_tests/files/run_tests.py
+./roles/run_tests/tasks/main.yml
+./roles/deploy_services/files/app-docker-compose.yml
