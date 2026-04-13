@@ -1,0 +1,24 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - /opt/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: "Jazzar101"
+      GF_SECURITY_ADMIN_PASSWORD: "password123!"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - /opt/monitoring/grafana-datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+volumes:
+  grafana-data:

@@ -46,12 +46,29 @@
   hosts: web_app, database
   become: true
   tasks:
-
     - name: Call Deploy Services Roles
       include_role:
         name: deploy_services
         tasks_from: main.yml
-    
+
+- name: Install Metrics Exporters
+  hosts: web_app, database
+  become: true
+  tasks:
+    - name: Run Install Exporters Role
+      include_role:
+        name: install_exporters
+        tasks_from: main.yml
+
+- name: Setup Monitoring
+  hosts: monitoring
+  become: true
+  tasks:
+    - name: Setup Monitoring Services
+      include_role: 
+        name: setup_monitoring
+        tasks_from: main.yml
+      
 - name: Run Tests
   hosts: tests
   become: true
@@ -61,10 +78,10 @@
         name: run_tests
         tasks_from: main.yml
 
-- name: Clean up
-  hosts: localhost
-  tasks:
-    - name: Destroy Instances
-      command:
-        cmd: terraform destroy --auto-approve
-        chdir: /home/jared/learning-terraform/terraform
+#- name: Clean up
+# hosts: localhost
+# tasks:
+#    - name: Destroy Instances
+#      command:
+#        cmd: terraform destroy --auto-approve
+#        chdir: /home/jared/learning-terraform/terraform

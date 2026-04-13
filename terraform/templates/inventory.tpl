@@ -7,4 +7,5 @@ app ansible_host=${web_app_public_ip} ansible_user=ubuntu ansible_ssh_private_ke
 [tests]
 tests ansible_host=${api_test_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-
+[monitoring]
+monitoring ansible_host=${monitoring_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa

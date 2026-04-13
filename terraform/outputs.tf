@@ -18,7 +18,7 @@ output "api_tests_public_ip" {
   value = aws_instance.api_test_instance.public_ip
 }
 
-output "api_tests_public_ip" {
+output "monitoring_public_ip" {
   value = aws_instance.monitoring_instance.public_ip
 }
 
