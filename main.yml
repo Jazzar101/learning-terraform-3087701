@@ -5,12 +5,12 @@
     - name: Terraform Destroy
       command:
         cmd: terraform destroy --auto-approve
-        chdir: /home/jared/learning-terraform
+        chdir: /home/jared/learning-terraform/terraform
 
     - name: Terraform Plan
       command:
         cmd: terraform plan
-        chdir: /home/jared/learning-terraform
+        chdir: /home/jared/learning-terraform/terraform
       register: terraform_state
 
     - name: Terraform State
@@ -20,7 +20,7 @@
     - name: Terraform Apply
       command:
         cmd: terraform apply --auto-approve
-        chdir: /home/jared/learning-terraform
+        chdir: /home/jared/learning-terraform/terraform
 
     - name: Refresh Inventory
       meta: refresh_inventory
@@ -60,3 +60,11 @@
       include_role:
         name: run_tests
         tasks_from: main.yml
+
+- name: Clean up
+  hosts: localhost
+  tasks:
+    - name: Destroy Instances
+      command:
+        cmd: terraform destroy --auto-approve
+        chdir: /home/jared/learning-terraform/terraform
