@@ -62,26 +62,21 @@ resource "aws_security_group" "main_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_security_group_rule" "allow_mysql" {
+  type              = "ingress"
+  security_group_id = aws_security_group.main_group.id
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.web_app_instance.public_ip}/32"]
 }
 
 resource "aws_key_pair" "main_key" {
@@ -124,7 +119,6 @@ resource "aws_instance" "api_test_instance" {
     Name = var.api_test_instance_name
   }
 }
-
 
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/templates/inventory.tpl", {
