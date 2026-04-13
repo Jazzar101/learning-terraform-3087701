@@ -70,6 +70,26 @@ resource "aws_security_group" "main_group" {
   }
 }
 
+resource "aws_security_group" "monitoring" {
+  name   = "Monitoring"
+  vpc_id = aws_vpc.main_vpc.id
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 9900
+    to_port     = 9900
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
+
 resource "aws_security_group_rule" "allow_mysql" {
   type              = "ingress"
   security_group_id = aws_security_group.main_group.id
@@ -78,6 +98,7 @@ resource "aws_security_group_rule" "allow_mysql" {
   protocol          = "tcp"
   cidr_blocks       = ["${aws_instance.web_app_instance.public_ip}/32"]
 }
+
 
 resource "aws_key_pair" "main_key" {
   key_name   = "id_rsa"
@@ -92,7 +113,7 @@ resource "aws_instance" "database_instance" {
   associate_public_ip_address = true
   security_groups             = [aws_security_group.main_group.id]
   tags = {
-    Name = var.database_instance_name
+    Name = "Database"
   }
 }
 
@@ -104,7 +125,7 @@ resource "aws_instance" "web_app_instance" {
   associate_public_ip_address = true
   security_groups             = [aws_security_group.main_group.id]
   tags = {
-    Name = var.web_app_instance_name
+    Name = "Web App"
   }
 }
 
@@ -116,7 +137,19 @@ resource "aws_instance" "api_test_instance" {
   associate_public_ip_address = true
   security_groups             = [aws_security_group.main_group.id]
   tags = {
-    Name = var.api_test_instance_name
+    Name = "API Tests"
+  }
+}
+
+resource "aws_instance" "monitoring_instance" {
+  ami                         = "ami-0c17cb8e234335014"
+  instance_type               = var.instance_type
+  key_name                    = "id_rsa"
+  subnet_id                   = aws_subnet.main_subnet.id
+  associate_public_ip_address = true
+  security_groups             = [aws_security_group.main_group.id, aws_security_group.monitoring.id]
+  tags = {
+    Name = "Monitoring"
   }
 }
 

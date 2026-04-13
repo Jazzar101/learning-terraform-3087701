@@ -1,21 +1,3 @@
-variable "database_instance_name" {
-  description = "Name of the Database's EC2 instance name tag"
-  type        = string
-  default     = "database"
-}
-
-variable "web_app_instance_name" {
-  description = "Name of the web app's EC2 instance name tag"
-  type        = string
-  default     = "web_app"
-}
-
-variable "api_test_instance_name" {
-  description = "Name of the web app's EC2 instance name tag"
-  type        = string
-  default     = "Tests"
-}
-
 variable "instance_type" {
   description = "Type of EC2 instance to provision"
   type        = string
