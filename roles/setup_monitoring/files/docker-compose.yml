@@ -19,6 +19,9 @@ services:
 
     volumes:
       - grafana-data:/var/lib/grafana
-      - /opt/monitoring/grafana-datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - /opt/monitoring/grafana-datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
+      - /opt/monitoring/grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - /opt/monitoring/dashboards/:/etc/grafana/provisioning/dashboards-json:ro
+
 volumes:
   grafana-data:

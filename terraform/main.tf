@@ -82,8 +82,8 @@ resource "aws_security_group" "monitoring" {
   }
 
   ingress {
-    from_port   = 9900
-    to_port     = 9900
+    from_port   = 9090
+    to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -99,6 +99,23 @@ resource "aws_security_group_rule" "allow_mysql" {
   cidr_blocks       = ["${aws_instance.web_app_instance.public_ip}/32"]
 }
 
+resource "aws_security_group_rule" "allow_cadvisor_metrics" {
+  type              = "ingress"
+  security_group_id = aws_security_group.main_group.id
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.monitoring_instance.public_ip}/32"]
+}
+
+resource "aws_security_group_rule" "allow_node_metrics" {
+  type              = "ingress"
+  security_group_id = aws_security_group.main_group.id
+  from_port         = 9100
+  to_port           = 9100
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.monitoring_instance.public_ip}/32"]
+}
 
 resource "aws_key_pair" "main_key" {
   key_name   = "id_rsa"

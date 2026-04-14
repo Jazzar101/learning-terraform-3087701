@@ -1,11 +1,22 @@
-- name: Install Docker Packages
-  apt:
-    name: "{{ item }}"
+---
+- name: Install Docker Components
+  package:
+    name:
+      - "docker.io"
+      - "docker-compose"
     state: present
-    update_cache: yes
-  loop:
-    - docker.io
-    - docker-compose
+
+- name: Ensure Docker Service Is Enabled And Started
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add Ubuntu User To Docker Group
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes
 
 - name: Create monitoring directory
   file:
@@ -21,7 +32,24 @@
       dest: /opt/monitoring/prometheus.yml
     - src: grafana-datasource.yml.j2
       dest: /opt/monitoring/grafana-datasource.yml
-  
+    - src: grafana-dashboards.yml.j2
+      dest: /opt/monitoring/grafana-dashboards.yml
+
+- name: Create Grafana dashboards directory
+  file:
+    path: /opt/monitoring/dashboards
+    state: directory
+
+- name: Download Node Exporter dashboard
+  get_url:
+    url: https://grafana.com/api/dashboards/1860/revisions/37/download
+    dest: /opt/monitoring/dashboards/node-exporter.json
+
+- name: Download Docker / cAdvisor dashboard
+  get_url:
+    url: https://grafana.com/api/dashboards/13496/revisions/1/download
+    dest: /opt/monitoring/dashboards/docker.json
+
 - name: Copy Docker Compose
   copy:
     src: ../files/docker-compose.yml
@@ -31,3 +59,13 @@
   command:
     cmd: "docker-compose up -d"
     chdir: /opt/monitoring
+
+- name: Check Container Status
+  command:
+    cmd: "docker ps -a"
+  register: docker_status
+
+- name: Display Container Feedback
+  debug:
+    var: docker_status.stdout_lines
+
