@@ -52,7 +52,7 @@
         tasks_from: main.yml
 
 - name: Install Metrics Exporters
-  hosts: web_app, database, monitoring
+  hosts: web_app, database
   become: true
   tasks:
     - name: Run Install Exporters Role

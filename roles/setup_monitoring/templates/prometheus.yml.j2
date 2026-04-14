@@ -2,26 +2,18 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: "web_app"
+  - job_name: "Directus"
     static_configs:
       - targets:
           - "{{ hostvars['app'].ansible_host }}:9100"
           - "{{ hostvars['app'].ansible_host }}:8080"
         labels:
-          instance: "Web App"
+          instance: "Directus"
 
-  - job_name: "database"
+  - job_name: "Database"
     static_configs:
       - targets:
           - "{{ hostvars['database'].ansible_host }}:9100"
           - "{{ hostvars['database'].ansible_host }}:8080"
         labels:
           instance: "Database"
-
-  - job_name: "monitoring"
-    static_configs:
-      - targets:
-          - "{{ hostvars['monitoring'].ansible_host }}:9100"
-          - "{{ hostvars['monitoring'].ansible_host }}:8080"
-        labels:
-          instance: "Monitoring"

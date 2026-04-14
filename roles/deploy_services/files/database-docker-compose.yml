@@ -14,3 +14,15 @@ services:
         volumes:
             - ./mysql-data:/var/lib/mysql
             - ./init-admin.sql:/docker-entrypoint-initdb.d/init-admin.sql
+
+    cadvisor:
+      image: gcr.io/cadvisor/cadvisor
+      container_name: cadvisor
+      restart: unless-stopped
+      ports:
+        - "8080:8080"
+      volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:ro
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
