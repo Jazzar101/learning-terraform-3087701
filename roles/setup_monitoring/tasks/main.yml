@@ -45,10 +45,11 @@
     url: https://grafana.com/api/dashboards/1860/revisions/37/download
     dest: /opt/monitoring/dashboards/node-exporter.json
 
-- name: Download Docker / cAdvisor dashboard
-  get_url:
-    url: https://grafana.com/api/dashboards/13496/revisions/1/download
-    dest: /opt/monitoring/dashboards/docker.json
+- name: Copy Over Docker / cAdvisor dashboard
+  copy:
+    src: ../files/docker-dashboard.json
+    dest: /opt/monitoring/dashboards/docker-dashboard.json
+#13496
 
 - name: Copy Docker Compose
   copy:

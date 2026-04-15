@@ -53,6 +53,10 @@
     enabled: yes
     state: started
 
+- name: Sleep 5 Seconds
+  pause:
+    seconds: 5
+
 - name: Check node_exporter endpoint
   uri:
     url: http://localhost:9100/metrics
