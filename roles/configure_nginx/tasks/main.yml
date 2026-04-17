@@ -1,0 +1,47 @@
+---
+- name: Update And Upgrade Apt Packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: Install Docker Components
+  package:
+    name:
+      - "docker.io"
+      - "docker-compose"
+    state: present
+
+- name: Ensure Docker Service Is Enabled And Started
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add Ubuntu User To Docker Group
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes
+
+- name: Copy Over Nginx Files
+  copy:
+    src: "{{ item.src }}"
+    dest: "/home/ubuntu/{{ item.dest }}"
+    owner: ubuntu
+    force: true
+  loop:
+    - src: ../files/docker-compose.yml
+      dest: docker-compose.yml
+    - src: ../files/nginx.conf
+      dest: nginx.conf
+
+- name: Stop Existing Docker Containers
+  command:
+    cmd: "docker-compose down"
+    chdir: "/home/ubuntu"
+
+- name: Run Docker Compose
+  command:
+    cmd: "docker-compose up -d"
+    chdir: "/home/ubuntu"

@@ -2,28 +2,28 @@
 - name: Provision Virtual Machines
   hosts: localhost
   tasks:
-    - name: Terraform Destroy
-      command:
-        cmd: terraform destroy --auto-approve
-        chdir: /home/jared/learning-terraform/terraform
+    - name: Provision Terraform
+      include_role:
+        name: provision_terraform
+        tasks_from: main.yml
 
-    - name: Terraform Plan
-      command:
-        cmd: terraform plan
-        chdir: /home/jared/learning-terraform/terraform
-      register: terraform_state
+- name: Install Nginx Proxy
+  hosts: nginx
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Wait For Nginx
+      wait_for_connection:
+        delay: 5
+        timeout: 60
 
-    - name: Terraform State
-      debug:
-        var: terraform_state
+    - name: Now Gather Facts
+      setup:
 
-    - name: Terraform Apply
-      command:
-        cmd: terraform apply --auto-approve
-        chdir: /home/jared/learning-terraform/terraform
-
-    - name: Refresh Inventory
-      meta: refresh_inventory
+    - name: Configure Nginx Proxy
+      include_role:
+        name: configure_nginx
+        tasks_from: main.yml
 
 - name: Update All Machines
   hosts: all
