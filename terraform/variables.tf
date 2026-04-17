@@ -16,6 +16,18 @@ variable "main_subnet" {
   }
 }
 
+variable "secret_subnet" {
+  type = object({
+    subnet_cidr = string
+    name        = string
+  })
+
+  default = {
+    subnet_cidr = "10.0.2.0/24"
+    name        = "secret_subnet"
+  }
+}
+
 
 variable "main_key" {
   description = "My public key"

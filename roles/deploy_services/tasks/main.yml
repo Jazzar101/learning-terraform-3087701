@@ -28,15 +28,10 @@
 
   - name: Copy Over Web App Files
     copy:
-      src: "{{ item.src }}"
-      dest: "/home/ubuntu/{{ item.dest }}"
+      src: ../files/app-docker-compose.yml
+      dest: "/home/ubuntu/docker-compose.yml"
       owner: ubuntu
       force: true
-    loop:
-      - src: ../files/app-docker-compose.yml
-        dest: docker-compose.yml
-      - src: ../files/nginx.conf
-        dest: nginx.conf
     when: inventory_hostname in groups['web_app']
 
   - name: Stop Existing Docker Containers
