@@ -14,7 +14,7 @@
 
   - name: Wait For API To Be Healthy
     uri:
-      url: "http://${nginx_private_ip}/server/health"
+      url: "http://10.0.1.77/server/health"
       method: GET
       status_code: 200
     register: directus_health

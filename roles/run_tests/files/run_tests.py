@@ -2,7 +2,7 @@ import requests
 import json
 import sys
 
-DIRECTUS_URL = "http://${nginx_private_ip}"
+DIRECTUS_URL = "http://18.170.111.59"
 ADMIN_EMAIL = "admin@admin.com"
 ADMIN_PASSWORD = "password123"
 
