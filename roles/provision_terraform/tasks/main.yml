@@ -1,0 +1,22 @@
+- name: Terraform Destroy
+  command:
+    cmd: terraform destroy --auto-approve
+    chdir: /home/jared/learning-terraform/terraform
+
+- name: Terraform Plan
+  command:
+    cmd: terraform plan
+    chdir: /home/jared/learning-terraform/terraform
+  register: terraform_state
+
+- name: Terraform State
+  debug:
+    var: terraform_state
+
+- name: Terraform Apply
+  command:
+    cmd: terraform apply --auto-approve
+    chdir: /home/jared/learning-terraform/terraform
+
+- name: Refresh Inventory
+  meta: refresh_inventory
