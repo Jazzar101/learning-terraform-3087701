@@ -52,8 +52,8 @@ flowchart BT
  
     linkStyle default stroke:#000
 
-    PublicLabel["Public Subnet"]:::subnetLabel
-    PrivateLabel["Private Subnet"]:::subnetLabel
+    PublicLabel["Public Subnet"]
+    PrivateLabel["Private Subnet"]
 
     class NGINX ingress
     class Monitoring monitoring
