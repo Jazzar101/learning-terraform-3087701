@@ -6,8 +6,8 @@ public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 ```mermaid
 flowchart TB
     Internet(((Internet)))
-    IGW([Internet Gateway])
     subgraph VPC[AWS VPC]
+        IGW([Internet Gateway])
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
             Monitoring["(Monitoring)\nPrometheus / Grafana"]
