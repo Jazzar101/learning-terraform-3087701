@@ -3,6 +3,6 @@ terraform.tfstate*
 ./roles/run_tests/files/run_tests.py
 ./roles/run_tests/tasks/main.yml
 ./roles/deploy_services/files/app-docker-compose.yml
-./roles/run_tests/files/*
-./roles/run_tests/tasks/*
-
+./roles/run_tests/files/
+./roles/run_tests/tasks/
+./roles/configure_nginx/files/nginx.conf

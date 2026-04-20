@@ -25,7 +25,7 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor
     container_name: cadvisor
-    restart: unless-stopped
+    restart: always
     ports:
       - "8080:8080"
     volumes:
