@@ -20,9 +20,9 @@ flowchart TB
         end
     end
 
-    Internet --> IGW
-    IGW --> NGINX
-    NGINX -->|Web Traffic| App
+    Internet <--> IGW
+    IGW <--> NGINX
+    NGINX <-->|Web Traffic| App
     App -->|"MySQL Queries(3306)"| DB
     IGW --> Monitoring
 
