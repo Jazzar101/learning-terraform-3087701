@@ -3,6 +3,7 @@
 The following diagram shows the current AWS architecture, including
 public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 
+```mermaid
 flowchart TB
     Internet((Internet))
 
@@ -41,3 +42,4 @@ flowchart TB
     class NAT nat
     class App app
     class DB db
+```
