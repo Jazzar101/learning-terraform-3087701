@@ -10,14 +10,13 @@ flowchart TB
         IGW([Internet Gateway])
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
-            Monitoring["(Monitoring)\nPrometheus / Grafana"]
+            Monitoring["(Monitoring) Prometheus / Grafana"]
             NAT{{NAT Gateway}}
         end
 
         subgraph PrivateSubnet[Private Subnet]
             App[Web App]
             DB[("Database\n(MySql)")]
-            PaddingNode[" "]:::pad
         end
     end
 
