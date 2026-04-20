@@ -26,7 +26,7 @@ flowchart TB
     App --> DB
     IGW --> Monitoring
 
-    Monitoring -->|Node Metrics (9100) / Container Metrics (8080)| App
+    Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| App
     Monitoring --> DB
 
     App --> NAT
