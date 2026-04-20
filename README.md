@@ -23,7 +23,7 @@ flowchart TB
     Internet <--> IGW
     IGW <--> NGINX
     NGINX <-->|Web Traffic| App
-    App -->|"MySQL Queries(3306)"| DB
+    App -->|"DB Queries(3306)"| DB
     IGW --> Monitoring
 
     Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| App
@@ -39,10 +39,12 @@ flowchart TB
     classDef nat fill:#f3e8ff,stroke:#7c3aed,color:#000000
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
+    classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
 
     class NGINX ingress
     class Monitoring monitoring
     class NAT nat
     class App app
     class DB db
+    class IGW igw
 ```
