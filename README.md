@@ -4,17 +4,17 @@ The following diagram shows the current AWS architecture, including
 public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 
 ```mermaid
-flowchart BT
+flowchart TB
     Internet(((Internet)))
     subgraph VPC[AWS VPC]
         IGW([Internet Gateway])
-        subgraph PublicSubnet[PublicLabel]
+        subgraph PublicSubnet[Public Subnetl]
             NAT{{NAT Gateway}}
             NGINX[NGINX]
             Monitoring["(Monitoring) Prometheus / Grafana"]
         end
 
-        subgraph PrivateSubnet[PrivateLabel]
+        subgraph PrivateSubnet[Private Subnet]
             App[Web App]
             DB[("Database\n(MySql)")]
         end
@@ -43,17 +43,14 @@ flowchart BT
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
     classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
-    classDef PublicLabel fill:#e3f2fd,stroke:none,color:#111827,font-weight:bold
-    classDef Privatelabel fill:#e8f5e9,stroke:none,color:#111827,font-weight:bold
+    classDef PublicSubnet fill:#e3ffff,stroke:none,color:#111827,font-weight:bold
+    classDef PrivateSubnet fill:#e8ffff,stroke:none,color:#111827,font-weight:bold
 
     style VPC fill:#eef0f2,stroke:#4b5563,stroke-width:2px
     style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px
     style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px    
  
     linkStyle default stroke:#000
-
-    PublicLabel["Public Subnet"]
-    PrivateLabel["Private Subnet"]
 
     class NGINX ingress
     class Monitoring monitoring
