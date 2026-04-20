@@ -43,7 +43,7 @@ flowchart BT
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
     classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
-    classDef VPC fill:#FFEAD3
+    style VPC fill:#FFEAD3, stroke:#00000, stroke-width: 2px
 
     class NGINX ingress
     class Monitoring monitoring
