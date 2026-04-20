@@ -17,6 +17,7 @@ flowchart TB
         subgraph PrivateSubnet[Private Subnet]
             App[Web App]
             DB[("Database\n(MySql)")]
+            PaddingNode[" "]:::pad
         end
     end
 
