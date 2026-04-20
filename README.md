@@ -6,7 +6,7 @@ public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 ```mermaid
 flowchart TB
     Internet((Internet))
-
+    IGW((Internet Gateway))
     subgraph VPC[AWS VPC]
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
@@ -20,7 +20,8 @@ flowchart TB
         end
     end
 
-    Internet --> NGINX
+    Internet --> IGW
+    IGW --> NGINX
     NGINX --> App
     App --> DB
 
@@ -43,4 +44,5 @@ flowchart TB
     class NAT nat
     class App app
     class DB db
+    class Internet Gateway igw
 ```
