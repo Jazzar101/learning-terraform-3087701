@@ -4,7 +4,7 @@ The following diagram shows the current AWS architecture, including
 public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 
 ```mermaid
-flowchart TB
+flowchart LR
     Internet(((Internet)))
     subgraph VPC[AWS VPC]
         IGW([Internet Gateway])
