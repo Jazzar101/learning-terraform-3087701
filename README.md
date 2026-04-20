@@ -15,8 +15,8 @@ flowchart TB
         end
 
         subgraph PrivateSubnet[Private Subnet]
-            App[Web App Server]
-            DB[Database Server (MySQL)]
+            App[Web App]
+            DB[Database]
         end
     end
 
