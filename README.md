@@ -5,18 +5,18 @@ public and private subnets, ingress via NGINX, monitoring, and NAT egress.
 
 ```mermaid
 flowchart TB
-    Internet((Internet))
-    IGW[Internet Gateway]
+    Internet(((Internet)))
+    IGW([Internet Gateway])
     subgraph VPC[AWS VPC]
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
             Monitoring["(Monitoring)\nPrometheus / Grafana"]
-            NAT[NAT Gateway]
+            NAT{{NAT Gateway}}
         end
 
         subgraph PrivateSubnet[Private Subnet]
             App[Web App]
-            DB["Database\n(MySql)"]
+            DB[("Database\n(MySql)")]
         end
     end
 
