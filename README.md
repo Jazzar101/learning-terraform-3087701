@@ -10,13 +10,13 @@ flowchart TB
     subgraph VPC[AWS VPC]
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
-            Monitoring[Monitoring<br/>Prometheus + Grafana]
+            Monitoring[Monitoring\nPrometheus + Grafana]
             NAT[NAT Gateway]
         end
 
         subgraph PrivateSubnet[Private Subnet]
             App[Web App Server]
-            DB[Database Server<br/>(MySQL)]
+            DB[Database Server\n(MySQL)]
         end
     end
 
