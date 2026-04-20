@@ -23,14 +23,14 @@ flowchart TB
     Internet <--> IGW
     IGW <--> NGINX
     NGINX <-->|Web Traffic| App
-    App -->|"DB Queries(3306)"| DB
+    App -->|"DB Queries (3306)"| DB
     IGW --> Monitoring
 
     Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| App
     Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| DB
 
     App --> NAT
-    DB --> NAT
+    DB -.-> NAT
     NAT --> IGW
 
     %% Node-only styling (GitHub safe)
