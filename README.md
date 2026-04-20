@@ -10,13 +10,13 @@ flowchart TB
     subgraph VPC[AWS VPC]
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
-            Monitoring[Server Monitoring Prometheus + Grafana]
+            Monitoring["(Monitoring)\nPrometheus / Grafana]
             NAT[NAT Gateway]
         end
 
         subgraph PrivateSubnet[Private Subnet]
             App[Web App]
-            DB[Database]
+            DB["Database\n(MySql)"]
         end
     end
 
@@ -29,6 +29,7 @@ flowchart TB
 
     App --> NAT
     DB --> NAT
+    NAT --> Internet
 
     %% Node-only styling (GitHub safe)
     classDef ingress fill:#dbeafe,stroke:#2563eb,color:#000000
