@@ -48,7 +48,7 @@ flowchart BT
     style VPC fill:#eef0f2,stroke:#4b5563,stroke-width:2px
     style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px
     style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px    
-    linkStyle default stroke:#00000,stroke-width:1.5px
+    style subnetLabel stroke:#00000,stroke-width:1.5px
 
     PublicLabel["Public Subnet"]:::subnetLabel
     PrivateLabel["Private Subnet"]:::subnetLabel
