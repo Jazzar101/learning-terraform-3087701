@@ -23,11 +23,11 @@ flowchart TB
     Internet --> IGW
     IGW --> NGINX
     NGINX -->|Web Traffic| App
-    App --> DB
+    App -->|"MySQL Queries(3306)"| DB
     IGW --> Monitoring
 
     Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| App
-    Monitoring --> DB
+    Monitoring -->|"Node Metrics (9100) / Container Metrics (8080)"| DB
 
     App --> NAT
     DB --> NAT
