@@ -10,7 +10,7 @@ flowchart TB
     subgraph VPC[AWS VPC]
         subgraph PublicSubnet[Public Subnet]
             NGINX[NGINX]
-            Monitoring["(Monitoring)\nPrometheus / Grafana]
+            Monitoring["(Monitoring)\nPrometheus / Grafana"]
             NAT[NAT Gateway]
         end
 
