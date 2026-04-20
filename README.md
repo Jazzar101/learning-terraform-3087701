@@ -44,5 +44,4 @@ flowchart TB
     class NAT nat
     class App app
     class DB db
-    class Internet Gateway igw
 ```
