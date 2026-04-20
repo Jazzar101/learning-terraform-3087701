@@ -43,10 +43,14 @@ flowchart BT
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
     classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
+    classDef subnetLabel fill:#ffffff,stroke:#374151,stroke-width:1.5px,color:#111827,font-weight:bold
 
-    style VPC fill:#f5f7fa,stroke:#374151,stroke-width:2px
+    style VPC fill:#eef0f2,stroke:#4b5563,stroke-width:2px
     style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px
     style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px    
+
+    PublicLabel["Public Subnet"]:::subnetLabel
+    PrivateLabel["Private Subnet"]:::subnetLabel
 
     class NGINX ingress
     class Monitoring monitoring
