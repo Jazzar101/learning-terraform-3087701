@@ -26,14 +26,13 @@ flowchart TB
     App -.->|"DB Queries (3306)"| DB
     IGW ==> Monitoring
 
-    Monitoring -.->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| App & DB
+    App & DB metrics@-.->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| Monitoring
 
     App -.-> NAT
     DB -.-> NAT
     NAT -.-> IGW
-    DB e1@--> Monitoring
     
-    e1@{ animation: slow }    
+    metrics@{ animation: slow }    
 
     %% Node-only styling (GitHub safe)
     classDef ingress fill:#dbeafe,stroke:#2563eb,color:#000000
