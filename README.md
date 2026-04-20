@@ -8,13 +8,13 @@ flowchart BT
     Internet(((Internet)))
     subgraph VPC[AWS VPC]
         IGW([Internet Gateway])
-        subgraph PublicSubnet[Public Subnet]
+        subgraph PublicSubnet[PublicLabel]
             NGINX[NGINX]
             Monitoring["(Monitoring) Prometheus / Grafana"]
             NAT{{NAT Gateway}}
         end
 
-        subgraph PrivateSubnet[Private Subnet]
+        subgraph PrivateSubnet[PrivateLabel]
             App[Web App]
             DB[("Database\n(MySql)")]
         end
