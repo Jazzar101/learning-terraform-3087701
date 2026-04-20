@@ -47,8 +47,8 @@ flowchart TB
     classDef PrivateSubnet fill:#e8f5e9,stroke:#16a34a
 
     style VPC fill:#eef0f2,stroke:#4b5563,stroke-width:2px
-    style PublicSubnet fill:#e3f2fd,stroke:#2563eb
-    style PrivateSubnet fill:#e8f5e9,stroke:#16a34a
+    style PublicSubnet fill:#e3f2fd,stroke:#2563eb, color:#000000
+    style PrivateSubnet fill:#e8f5e9,stroke:#16a34a, color:#000000
  
     linkStyle default stroke:#000
 
