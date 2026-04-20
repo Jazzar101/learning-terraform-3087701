@@ -43,8 +43,8 @@ flowchart TB
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
     classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
-    classDef PublicSubnet fill:#ffffff,stroke:none,color:#000000,font-weight:bold
-    classDef PrivateSubnet fill:#ffffff,stroke:none,color:#000000font-weight:bold
+    classDef PublicSubnet fill:#e3f2fd,stroke:none,color:#000000,font-weight:bold
+    classDef PrivateSubnet fill:#e8f5e9,stroke:none,color:#000000,font-weight:bold
 
     style VPC fill:#eef0f2,stroke:#4b5563,stroke-width:2px
  
