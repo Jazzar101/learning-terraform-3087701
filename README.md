@@ -49,7 +49,7 @@ flowchart TB
     classDef PublicSubnet fill:#e3f2fd,stroke:#2563eb
     classDef PrivateSubnet fill:#e8f5e9,stroke:#16a34a    
     classDef VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000
-    classDef Testing fill:#D0DDD0,stroke:#AAB99A, stroke-width:2px,color:#000000
+    classDef testing fill:#D0DDD0,stroke:#AAB99A, stroke-width:2px,color:#000000
 
     style VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000,font-size:14px
     style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px,color:#000000,font-size:14x
@@ -64,4 +64,5 @@ flowchart TB
     class App app
     class DB db
     class IGW igw
+    class Testing testing
 ```
