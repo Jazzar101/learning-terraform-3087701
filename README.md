@@ -12,6 +12,7 @@ flowchart TB
             NAT{{NAT Gateway}}
             NGINX[NGINX]
             Monitoring["(Monitoring) Prometheus / Grafana"]
+            Testing["Test Runner"]
         end
 
         subgraph PrivateSubnet[Private Subnet]
@@ -25,10 +26,12 @@ flowchart TB
     NGINX <==>|Web Traffic| App
     App -.->|"DB Queries (3306)"| DB
     IGW ==> Monitoring
+    IGW ==> Testing
 
     App metricsApp@-->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| Monitoring
     DB metricsDB@-->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| Monitoring
-
+    Testing-->|"API Tests"| App
+    
     App -.-> NAT
     DB -.-> NAT
     NAT -.-> IGW
