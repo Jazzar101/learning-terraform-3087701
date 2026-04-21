@@ -9,14 +9,14 @@ flowchart TB
     subgraph VPC[AWS VPC]
         IGW([Internet Gateway])
         subgraph PublicSubnet[Public Subnet]
-            NAT{{NAT Gateway}}
-            NGINX[NGINX]
+            NAT{{"Elastic IP\nNAT Gateway"}}
+            NGINX["NGINX\n(Reverse Proxy)"]
             Monitoring["(Monitoring) Prometheus / Grafana (Scrape Node (9100) & Docker (8080) Metrics"]
             Testing["Test Runner (API)"]
         end
 
         subgraph PrivateSubnet[Private Subnet]
-            App[Web App]
+            App["Directus\n(Web App)"]
             DB[("MySQL Database (3306)")]
         end
     end
