@@ -18,10 +18,10 @@ resource "local_file" "compose" {
 }
 
 resource "local_file" "api_tests_python" {
-  content = templatefile("${path.module}/../roles/run_tests/templates/run_tests.py.tpl", {
+  content = templatefile("${path.module}/../roles/run_tests/templates/api_tests.py.tpl", {
     nginx_private_ip = aws_instance.nginx_instance.public_ip
   })
-  filename = "../roles/run_tests/files/run_tests.py"
+  filename = "../roles/run_tests/files/api_tests.py"
 }
 
 resource "local_file" "api_tests_tasks" {

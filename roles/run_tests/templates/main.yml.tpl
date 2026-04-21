@@ -7,10 +7,13 @@
 
   - name: Copy Test Files
     copy:
-      src: ../files/run_tests.py
-      dest: /home/ubuntu/run_tests.py
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
       owner: ubuntu
       force: true
+    loop:
+      - src: ../files/api_tests.py
+        dest: /home/ubuntu/api_tests.py
 
   - name: Wait For API To Be Healthy
     uri:
