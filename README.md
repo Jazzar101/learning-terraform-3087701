@@ -50,7 +50,7 @@ flowchart TB
     style VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000
     style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px,color:#000000
     style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px,color:#000000
-    style Internet fill:#E97F4A,stroke:#16a34a,stroke-width:2px,color:#000000
+    style Internet fill:#FFA239,stroke:#E97F4A,stroke-width:4px,color:#000000
 
     linkStyle default stroke:#000
 
