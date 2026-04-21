@@ -8,7 +8,7 @@ flowchart TB
     Internet(((Internet)))
     subgraph VPC[AWS VPC]
         IGW([Internet Gateway])
-        subgraph PublicSubnet[Public Subnet]
+        subgraph PublicSubnet[Public Facing Subnet]
             NAT{{"Elastic IP\nNAT Gateway"}}
             NGINX["NGINX\n(Reverse Proxy)"]
             Monitoring["(Monitoring) Prometheus / Grafana (Scrape Node (9100) & Docker (8080) Metrics"]
