@@ -11,26 +11,26 @@ flowchart TB
         subgraph PublicSubnet[Public Subnet]
             NAT{{NAT Gateway}}
             NGINX[NGINX]
-            Monitoring["(Monitoring) Prometheus / Grafana"]
-            Testing["Test Runner"]
+            Monitoring["(Monitoring) Prometheus / Grafana (Scrape Node (9100) & Docker (8080) Metrics"]
+            Testing["Test Runner (API)"]
         end
 
         subgraph PrivateSubnet[Private Subnet]
             App[Web App]
-            DB[("Database\n(MySql)")]
+            DB[("MySQL Database (3306)")]
         end
     end
 
     Internet <==> IGW
     IGW <==> NGINX
-    NGINX <==>|Web Traffic| App
-    App -.->|"DB Queries (3306)"| DB
+    NGINX <==> App
+    App -.-> DB
     IGW ==> Monitoring
     IGW ==> Testing
 
-    App metricsApp@-->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| Monitoring
-    DB metricsDB@-->|"Fetch Node Metrics (9100) & Container Metrics (8080)"| Monitoring
-    Testing-->|"API Tests"| App
+    App metricsApp@--> Monitoring
+    DB metricsDB@--> Monitoring
+    Testing --> App
     
     App -.-> NAT
     DB -.-> NAT
