@@ -47,10 +47,10 @@ flowchart TB
     classDef PrivateSubnet fill:#e8f5e9,stroke:#16a34a    
     classDef VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000
 
-    style VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000,font-size:18px
-    style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px,color:#000000,font-size:18px
-    style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px,color:#000000,font-size:18px
-    style Internet fill:#FFA239,stroke:#E97F4A,stroke-width:4px,color:#000000,font-size:18px
+    style VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000,font-size:14px
+    style PublicSubnet fill:#e3f2fd,stroke:#2563eb,stroke-width:2px,color:#000000,font-size:14x
+    style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px,color:#000000,font-size:14px
+    style Internet fill:#FFA239,stroke:#E97F4A,stroke-width:4px,color:#000000,font-size:14px
 
     linkStyle default stroke:#9B7EBD
 
