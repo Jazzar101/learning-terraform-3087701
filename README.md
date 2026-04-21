@@ -42,7 +42,7 @@ flowchart TB
     classDef nat fill:#f3e8ff,stroke:#7c3aed,color:#000000
     classDef app fill:#dcfce7,stroke:#16a34a,color:#000000
     classDef db fill:#fde2e4,stroke:#dc2626,color:#000000
-    classDef igw fill:#EA7B7B,stroke:#D25353,color:#00000
+    classDef igw fill:#EA7B7B,stroke:#D25353,color:#000000
     classDef PublicSubnet fill:#e3f2fd,stroke:#2563eb
     classDef PrivateSubnet fill:#e8f5e9,stroke:#16a34a    
     classDef VPC fill:#F9DFDF,stroke:#4b5563,stroke-width:2px,color:#000000
@@ -52,7 +52,7 @@ flowchart TB
     style PrivateSubnet fill:#e8f5e9,stroke:#16a34a,stroke-width:2px,color:#000000
     style Internet fill:#FFA239,stroke:#E97F4A,stroke-width:4px,color:#000000
 
-    linkStyle default stroke:#000
+    linkStyle default stroke:#9B7EBD
 
     class NGINX ingress
     class Monitoring monitoring
