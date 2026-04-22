@@ -51,6 +51,11 @@
     command:
       cmd: /home/ubuntu/venv/bin/python -m pytest db_tests.py
       chdir: /home/ubuntu/
+    register: db_test_results
+
+  - name: Output DB Test Results
+    debug:
+      var: db_test_results
 
   - name: Test Completion
     debug:

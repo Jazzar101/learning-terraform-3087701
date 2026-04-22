@@ -63,7 +63,7 @@ resource "aws_security_group_rule" "allow_directus" {
   from_port         = 8055
   to_port           = 8055
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32", "${aws_instance.api_test_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32", "${aws_instance.testing_instance.private_ip}/32"]
 }
 
 resource "aws_security_group_rule" "allow_mysql" {

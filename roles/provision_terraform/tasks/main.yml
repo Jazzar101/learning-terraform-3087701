@@ -7,11 +7,6 @@
   command:
     cmd: terraform plan
     chdir: /home/jared/learning-terraform/terraform
-  register: terraform_state
-
-- name: Terraform State
-  debug:
-    var: terraform_state
 
 - name: Terraform Apply
   command:

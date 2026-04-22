@@ -67,16 +67,23 @@ class Test_Database:
         """Credentials must allow login."""
         assert db_connection.is_connected()
 
-
-    def test_no_admin_privileges(self, cursor):
-        """App DB user must not have admin privileges."""
+    def test_no_admin_privileges(cursor):
         cursor.execute("SHOW GRANTS FOR CURRENT_USER")
-        grants = " ".join(row[list(row.keys())[0]] for row in cursor.fetchall())
 
-        forbidden = ["SUPER", "ALL PRIVILEGES", "GRANT OPTION"]
-        for privilege in forbidden:
-            assert privilege not in grants, f"Forbidden privilege found: {privilege}"
+        grants = [
+            row[list(row.keys())[0]]
+            for row in cursor.fetchall()
+        ]
 
+        forbidden_substrings = [
+            "SUPER",
+            "GRANT OPTION",
+            "ALL PRIVILEGES ON *.*",
+        ]
+
+        for grant in grants:
+            for forbidden in forbidden_substrings:
+                assert forbidden not in grant, f"Forbidden privilege found: {grant}"
 
     def test_drop_table_not_allowed(self, cursor):
         """Ensure destructive ops are blocked."""

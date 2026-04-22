@@ -28,7 +28,7 @@ resource "aws_instance" "testing_instance" {
   associate_public_ip_address = true
   security_groups             = [aws_security_group.public_group.id]
   tags = {
-    Name = "API Tests"
+    Name = "Testing"
   }
 }
 
