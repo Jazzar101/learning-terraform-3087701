@@ -24,7 +24,14 @@ resource "local_file" "api_tests_python" {
   filename = "../roles/run_tests/files/api_tests.py"
 }
 
-resource "local_file" "api_tests_tasks" {
+resource "local_file" "db_tests_python" {
+  content = templatefile("${path.module}/../roles/run_tests/templates/db_tests.py.tpl", {
+    database_private_ip = aws_instance.database_instance.private_ip
+  })
+  filename = "../roles/run_tests/files/db_tests.py"
+}
+
+resource "local_file" "testing_tasks" {
   content = templatefile("${path.module}/../roles/run_tests/templates/main.yml.tpl", {
     nginx_private_ip = aws_instance.nginx_instance.private_ip
   })
