@@ -49,7 +49,7 @@
 
   - name: Run Database Python Tests
     command:
-      cmd: /home/ubuntu/venv/bin/python -m pytest db_tests.py
+      cmd: sudo /home/ubuntu/venv/bin/python -m pytest db_tests.py
       chdir: /home/ubuntu/
     register: db_test_results
 
