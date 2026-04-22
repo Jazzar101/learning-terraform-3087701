@@ -24,7 +24,7 @@ class DB_Tests:
 
 
     @pytest.fixture(scope="module")
-    def db_connection():
+    def db_connection(self):
         """
         Setup the database connection and make it available
         to all test suites before tearing down the connection.
@@ -42,33 +42,33 @@ class DB_Tests:
         conn.close()
 
     @pytest.fixture()
-    def cursor(db_connection):
+    def cursor(self, db_connection):
         """
         Setup the database cursor and make it available to
         all test suites before closing it.
         """
-        cur = db_connection.cursor(dictionary=True)
+        cur = db_connection.cursor(self, dictionary=True)
         yield cur
         cur.close()
 
-    def test_dns_resolution():
+    def test_dns_resolution(self):
         """DB hostname must resolve."""
         ip = socket.gethostbyname(DB_HOST)
         assert ip, "DNS resolution failed"
 
 
-    def test_db_port_open():
+    def test_db_port_open(self):
         """DB port must be reachable."""
         sock = socket.create_connection((DB_HOST, DB_PORT), timeout=CONNECT_TIMEOUT)
         sock.close()
 
 
-    def test_db_login(db_connection):
+    def test_db_login(self, db_connection):
         """Credentials must allow login."""
         assert db_connection.is_connected()
 
 
-    def test_no_admin_privileges(cursor):
+    def test_no_admin_privileges(self, cursor):
         """App DB user must not have admin privileges."""
         cursor.execute("SHOW GRANTS FOR CURRENT_USER")
         grants = " ".join(row[list(row.keys())[0]] for row in cursor.fetchall())
@@ -78,12 +78,12 @@ class DB_Tests:
             assert privilege not in grants, f"Forbidden privilege found: {privilege}"
 
 
-    def test_drop_table_not_allowed(cursor):
+    def test_drop_table_not_allowed(self, cursor):
         """Ensure destructive ops are blocked."""
         with pytest.raises(mysql.connector.Error):
             cursor.execute("DROP TABLE users")
 
-    def test_required_tables_exist(, cursor):
+    def test_required_tables_exist(self, cursor):
         """Core tables must exist."""
         cursor.execute(
             """
@@ -101,7 +101,7 @@ class DB_Tests:
         assert not missing, f"Missing tables: {missing}"
 
 
-    def test_users_table_schema(cursor):
+    def test_users_table_schema(self, cursor):
         """Users table schema must match expectations."""
         cursor.execute(
             """
@@ -118,7 +118,7 @@ class DB_Tests:
         assert cols.get("id") in ("int", "bigint")
         assert cols.get("email") == "varchar"
 
-    def test_unique_constraint_enforced(cursor, db_connection):
+    def test_unique_constraint_enforced(self, cursor, db_connection):
         """Email uniqueness must be enforced."""
         try:
             cursor.execute(
@@ -134,7 +134,7 @@ class DB_Tests:
             db_connection.rollback()
 
 
-    def test_transaction_rollback(cursor, db_connection):
+    def test_transaction_rollback(self, cursor, db_connection):
         """Transactions must roll back cleanly."""
         cursor.execute(
             "INSERT INTO users (email) VALUES ('rollback-test@example.com')"
@@ -147,7 +147,7 @@ class DB_Tests:
         result = cursor.fetchone()
         assert result["cnt"] == 0
 
-    def test_time_zone_is_utc(cursor):
+    def test_time_zone_is_utc(self, cursor):
         """DB should run in UTC to avoid drift bugs."""
         cursor.execute("SELECT @@time_zone AS tz")
         tz = cursor.fetchone()["tz"]
