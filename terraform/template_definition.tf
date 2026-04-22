@@ -2,7 +2,7 @@ resource "local_file" "inventory" {
   content = templatefile("${path.module}/templates/inventory.tpl", {
     database_private_ip  = aws_instance.database_instance.private_ip
     web_app_private_ip   = aws_instance.web_app_instance.private_ip
-    api_test_public_ip   = aws_instance.api_test_instance.public_ip
+    testing_public_ip   = aws_instance.testing_instance.public_ip
     monitoring_public_ip = aws_instance.monitoring_instance.public_ip
     nginx_public_ip      = aws_instance.nginx_instance.public_ip
   })

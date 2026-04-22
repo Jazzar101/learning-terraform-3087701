@@ -72,7 +72,7 @@ resource "aws_security_group_rule" "allow_mysql" {
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.web_app_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.web_app_instance.private_ip}/32", "${aws_instance.testing_instance.private_ip}/32"]
 }
 
 resource "aws_security_group_rule" "allow_cadvisor_metrics" {

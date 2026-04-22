@@ -20,7 +20,7 @@ resource "aws_instance" "web_app_instance" {
   }
 }
 
-resource "aws_instance" "api_test_instance" {
+resource "aws_instance" "testing_instance" {
   ami                         = "ami-0c17cb8e234335014"
   instance_type               = var.instance_type
   key_name                    = "id_rsa"

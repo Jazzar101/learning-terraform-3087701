@@ -11,7 +11,7 @@ These tests validate:
 
 import socket
 import pytest
-import mysql
+import mysql.connector
 
 DB_HOST = "${database_private_ip}"
 DB_PORT = 3306
@@ -20,7 +20,7 @@ DB_USER = "user"
 DB_PASSWORD = "password123"
 CONNECT_TIMEOUT = 5
 
-class DB_Tests:
+class Test_Database:
 
 
     @pytest.fixture(scope="module")
