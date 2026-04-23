@@ -12,7 +12,7 @@ flowchart LR
             NAT{{"Elastic IP\nNAT Gateway"}}
             NGINX["NGINX\n(Reverse Proxy)"]
             Monitoring["(Monitoring) Prometheus / Grafana (Scrape Node (9100) & Docker (8080) Metrics"]
-            Testing["Test Runner (API)"]
+            Testing["Test Runner"]
         end
 
         subgraph PrivateSubnet[Private Subnet]
@@ -31,6 +31,7 @@ flowchart LR
     App metricsApp@--> Monitoring
     DB metricsDB@--> Monitoring
     Testing --> App
+    Testing --> DB
     
     App -.-> NAT
     DB -.-> NAT
