@@ -1,7 +1,7 @@
 variable "instance_type" {
   description = "Type of EC2 instance to provision"
   type        = string
-  default     = "t3.micro"
+  default     = "c7i-flex.large"
 }
 
 variable "main_subnet" {

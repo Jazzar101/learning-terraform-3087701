@@ -1,12 +1,13 @@
-- name: Terraform Destroy
-  command:
-    cmd: terraform destroy --auto-approve
-    chdir: /home/jared/learning-terraform/terraform
-
+---
 - name: Terraform Plan
   command:
-    cmd: terraform plan
+    cmd: terraform plan -no-color
     chdir: /home/jared/learning-terraform/terraform
+  register: terraform_plan
+
+- name: Debug Terraform
+  debug:
+    var: terraform_plan.stdout
 
 - name: Terraform Apply
   command:

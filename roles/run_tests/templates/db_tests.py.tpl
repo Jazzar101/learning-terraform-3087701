@@ -67,7 +67,7 @@ class Test_Database:
         """Credentials must allow login."""
         assert db_connection.is_connected()
 
-    def test_no_admin_privileges(cursor):
+    def test_no_admin_privileges(self, cursor):
         cursor.execute("SHOW GRANTS FOR CURRENT_USER")
 
         grants = [
@@ -101,8 +101,8 @@ class Test_Database:
             (DB_NAME,),
         )
 
-        tables = {row["table_name"] for row in cursor.fetchall()}
-        expected = {"users"}  # extend as needed
+        tables = {row["TABLE_NAME"] for row in cursor.fetchall()}
+        expected = {"directus_users"}  # extend as needed
 
         missing = expected - tables
         assert not missing, f"Missing tables: {missing}"
@@ -115,24 +115,25 @@ class Test_Database:
             SELECT column_name, data_type
             FROM information_schema.columns
             WHERE table_schema = %s
-            AND table_name = 'users'
+            AND table_name = 'directus_users'
             """,
             (DB_NAME,),
         )
 
-        cols = {row["column_name"]: row["data_type"] for row in cursor.fetchall()}
-
-        assert cols.get("id") in ("int", "bigint")
-        assert cols.get("email") == "varchar"
+        cols = {row["COLUMN_NAME"]: row["DATA_TYPE"] for row in cursor.fetchall()}
+        assert "id" in cols.keys(), f"Col Names: {cols.keys()}"
+        assert "email" in cols.keys(), f"Col Names: {cols.keys()}"
+        assert cols.get("id") == "char", f"Fail: ID col is type: {cols.get('id')}"
+        assert cols.get("email") == "varchar", f"Fail: email col is type: {cols.get('email')}"
 
     def test_unique_constraint_enforced(self, cursor, db_connection):
         """Email uniqueness must be enforced."""
         try:
             cursor.execute(
-                "INSERT INTO users (email) VALUES ('infra-test@example.com')"
+                "INSERT INTO directus_users (id, email) VALUES (UUID(), 'infra-test@example.com')"
             )
             cursor.execute(
-                "INSERT INTO users (email) VALUES ('infra-test@example.com')"
+                "INSERT INTO directus_users (id, email) VALUES (UUID(), 'infra-test@example.com')"
             )
             db_connection.commit()
             pytest.fail("Duplicate insert should fail")
@@ -144,18 +145,30 @@ class Test_Database:
     def test_transaction_rollback(self, cursor, db_connection):
         """Transactions must roll back cleanly."""
         cursor.execute(
-            "INSERT INTO users (email) VALUES ('rollback-test@example.com')"
+            "INSERT INTO directus_users (id, email) VALUES (UUID(), 'rollback-test@example.com')"
         )
         db_connection.rollback()
 
         cursor.execute(
-            "SELECT COUNT(*) AS cnt FROM users WHERE email='rollback-test@example.com'"
+            "SELECT COUNT(*) AS ROW_COUNT FROM directus_users WHERE email='rollback-test@example.com'"
         )
         result = cursor.fetchone()
-        assert result["cnt"] == 0
+        assert result["ROW_COUNT"] == 0
 
     def test_time_zone_is_utc(self, cursor):
-        """DB should run in UTC to avoid drift bugs."""
-        cursor.execute("SELECT @@time_zone AS tz")
-        tz = cursor.fetchone()["tz"]
-        assert tz in ("UTC", "+00:00")
+        """
+        Verify the database operates in UTC by comparing NOW() with UTC_TIMESTAMP().
+        """
+
+        cursor.execute("""
+            SELECT TIMESTAMPDIFF(SECOND, UTC_TIMESTAMP(), NOW()) AS UTC_OFFSET
+        """)
+
+        result = cursor.fetchone()
+
+        # Extract the value safely (MySQL uppercases aliases)
+        utc_offset = result["UTC_OFFSET"]
+
+        assert utc_offset == 0, (
+            f"Database is not running in UTC (offset={utc_offset} seconds)"
+        )
