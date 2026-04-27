@@ -6,3 +6,4 @@ roles/deploy_services/files/app-docker-compose.yml
 roles/run_tests/files/
 roles/run_tests/tasks/
 roles/configure_nginx/files/nginx.conf
+set_env.sh
