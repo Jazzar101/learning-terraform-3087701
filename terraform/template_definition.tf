@@ -11,8 +11,8 @@ resource "local_file" "inventory" {
 
 resource "local_file" "env_file" {
   content = templatefile("${path.module}/templates/set_env.sh.tpl", {
-    database_ip  = aws_instance.database_instance.private_ip
-    web_app_ip   = aws_instance.web_app_instance.private_ip
+    database_ip   = aws_instance.database_instance.private_ip
+    web_app_ip    = aws_instance.web_app_instance.private_ip
     testing_ip    = aws_instance.testing_instance.public_ip
     monitoring_ip = aws_instance.monitoring_instance.public_ip
     nginx_ip      = aws_instance.nginx_instance.public_ip
@@ -40,6 +40,16 @@ resource "local_file" "db_tests_python" {
     database_private_ip = aws_instance.database_instance.private_ip
   })
   filename = "../roles/run_tests/files/db_tests.py"
+}
+
+resource "local_file" "infrastructure_tests" {
+  content = templatefile("${path.module}/../roles/run_tests/templates/infrastructure_tests.py.tpl", {
+    database_ip   = aws_instance.database_instance.private_ip
+    web_app_ip    = aws_instance.web_app_instance.private_ip
+    monitoring_ip = aws_instance.monitoring_instance.public_ip
+    nginx_ip      = aws_instance.nginx_instance.public_ip
+  })
+  filename = "../roles/run_tests/files/infrastructure_tests.py"
 }
 
 resource "local_file" "testing_tasks" {

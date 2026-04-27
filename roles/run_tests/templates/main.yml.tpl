@@ -18,6 +18,8 @@
         dest: /home/ubuntu/api_tests.py
       - src: ../files/db_tests.py
         dest: /home/ubuntu/db_tests.py
+      - src: ../files/infrastructure_tests.py
+        dest: /home/ubuntu/infrastructure_tests.py
 
   - name: Wait For API To Be Healthy
     uri:
@@ -56,6 +58,11 @@
   - name: Output DB Test Results
     debug:
       var: db_test_results
+
+  - name: Run Infrastructure Tests
+    command:
+      cmd: sudo /home/ubuntu/venv/bin/python -m pytest infrastructure_tests.py
+      chdir: /home/ubuntu/
 
   - name: Test Completion
     debug:

@@ -35,7 +35,7 @@ class Test_Infrastructure:
             },
             "web_app": {
                 "host": self.WEB_APP_IP,
-                "result": False
+                "result": True
             },
             "nginx": {
                 "host": self.NGINX_IP,
@@ -43,9 +43,9 @@ class Test_Infrastructure:
             }
         }
 
-        for instance in instance_config:
-            result = self.can_connect(instance["host"], port)
-            assert result == instance["result"]
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
 
     def test_should_connect_to_instance_mysql(self):
         """
@@ -71,9 +71,9 @@ class Test_Infrastructure:
                 "result": False
             }
         }
-        for instance in instance_config:
-            result = self.can_connect(instance["host"], port)
-            assert result == instance["result"]
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
 
 
     def test_should_connect_to_instance_node_metrics(self):
@@ -99,9 +99,9 @@ class Test_Infrastructure:
                 "result": False
             }
         }
-        for instance in instance_config:
-            result = self.can_connect(instance["host"], port)
-            assert result == instance["result"]
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
 
     def test_should_connect_to_instance_docker_metrics(self):
         """
@@ -126,9 +126,9 @@ class Test_Infrastructure:
                 "result": False
             }
         }
-        for instance in instance_config:
-            result = self.can_connect(instance["host"], port)
-            assert result == instance["result"]
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
 
     def test_should_connect_to_instance_web_traffic(self):
         """
@@ -153,6 +153,6 @@ class Test_Infrastructure:
                 "result": True
             }
         }
-        for instance in instance_config:
-            result = self.can_connect(instance["host"], port)
-            assert result == instance["result"]
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
