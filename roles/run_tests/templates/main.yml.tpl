@@ -57,12 +57,17 @@
 
   - name: Output DB Test Results
     debug:
-      var: db_test_results
+      var: db_test_results.stdout
 
   - name: Run Infrastructure Tests
     command:
       cmd: sudo /home/ubuntu/venv/bin/python -m pytest infrastructure_tests.py
       chdir: /home/ubuntu/
+    register: infra_test_results
+
+  - name: Output Infrastructure Test Results
+    debug:
+      var: infra_test_results.stdout
 
   - name: Test Completion
     debug:
