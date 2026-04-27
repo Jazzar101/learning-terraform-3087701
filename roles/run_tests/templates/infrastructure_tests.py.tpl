@@ -156,3 +156,37 @@ class Test_Infrastructure:
         for instance in instance_config.values():
             result = self.can_connect(instance.get("host"), port)
             assert result == instance.get("result")
+
+    def test_should_connect_to_instance_web_traffic(self):
+        """
+        Test Grafana and Prometheus ports only open on monitoring instance.
+        """
+        port = 3000 # Grafana
+        instance_config = {
+            "monitoring": {
+                "host": self.MONITORING_IP,
+                "result": True
+            },
+            "database": {
+                "host": self.DATABASE_IP,
+                "result": False
+            },
+            "web_app": {
+                "host": self.WEB_APP_IP,
+                "result": False
+            },
+            "nginx": {
+                "host": self.NGINX_IP,
+                "result": False
+            }
+        }
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
+
+        port = 9090 # Prometheus
+        for instance in instance_config.values():
+            result = self.can_connect(instance.get("host"), port)
+            assert result == instance.get("result")
+
+
