@@ -58,24 +58,27 @@ resource "aws_security_group" "monitoring" {
 }
 
 resource "aws_security_group_rule" "allow_directus" {
+  description       = "Allow Web Traffic From NGINX"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 8055
   to_port           = 8055
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32", "${aws_instance.api_test_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
 }
 
 resource "aws_security_group_rule" "allow_mysql" {
+  description       = "Allows MySql Database traffic from the Web App & Testing Instance"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.web_app_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.web_app_instance.private_ip}/32", "${aws_instance.testing_instance.private_ip}/32"]
 }
 
 resource "aws_security_group_rule" "allow_cadvisor_metrics" {
+  description       = "Allows cAdvisor metrics scraping from the Monitoring instance"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 8080
@@ -85,6 +88,7 @@ resource "aws_security_group_rule" "allow_cadvisor_metrics" {
 }
 
 resource "aws_security_group_rule" "allow_node_metrics" {
+  description       = "Allows Node Exporter metrics scraping from the Monitoring instance"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 9100
@@ -93,12 +97,13 @@ resource "aws_security_group_rule" "allow_node_metrics" {
   cidr_blocks       = ["${aws_instance.monitoring_instance.private_ip}/32"]
 }
 
-resource "aws_security_group_rule" "allow_ssh_from_nginx" {
+resource "aws_security_group_rule" "allow_ssh_from_host" {
+  description       = "Allows internal SSH traffic from NGINX and the Testing Instance"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32", "${aws_instance.testing_instance.private_ip}/32"]
 }
 
