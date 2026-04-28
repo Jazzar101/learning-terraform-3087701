@@ -1,14 +1,14 @@
 [database]
-database ansible_host=${database_private_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${nginx_public_ip}'
+database ansible_host=${database_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'
 
 [web_app]
-app ansible_host=${web_app_private_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${nginx_public_ip}'
+app ansible_host=${web_app_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'
 
 [tests]
-tests ansible_host=${testing_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+tests ansible_host=${testing_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 [monitoring]
-monitoring ansible_host=${monitoring_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+monitoring ansible_host=${monitoring_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'
 
 [nginx]
-nginx ansible_host=${nginx_public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+nginx ansible_host=${nginx_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'

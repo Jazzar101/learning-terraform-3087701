@@ -3,13 +3,6 @@ resource "aws_security_group" "public_group" {
   vpc_id = aws_vpc.main_vpc.id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -28,6 +21,25 @@ resource "aws_security_group" "private_group" {
   name   = "Private Group"
   vpc_id = aws_vpc.main_vpc.id
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
+
+resource "aws_security_group" "ssh_all" {
+  name   = "SSH All"
+  vpc_id = aws_vpc.main_vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -97,13 +109,22 @@ resource "aws_security_group_rule" "allow_node_metrics" {
   cidr_blocks       = ["${aws_instance.monitoring_instance.private_ip}/32"]
 }
 
-resource "aws_security_group_rule" "allow_ssh_from_host" {
-  description       = "Allows internal SSH traffic from NGINX and the Testing Instance"
+resource "aws_security_group_rule" "allow_ssh_from_host_private" {
+  description       = "Allows internal SSH traffic from the Testing Instance"
   type              = "ingress"
   security_group_id = aws_security_group.private_group.id
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32", "${aws_instance.testing_instance.private_ip}/32"]
+  cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
 }
 
+resource "aws_security_group_rule" "allow_ssh_from_host_public" {
+  description       = "Allows internal SSH traffic from the Testing Instance"
+  type              = "ingress"
+  security_group_id = aws_security_group.public_group.id
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
+}

@@ -26,7 +26,7 @@ resource "aws_instance" "testing_instance" {
   key_name                    = "id_rsa"
   subnet_id                   = aws_subnet.main_subnet.id
   associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.public_group.id]
+  vpc_security_group_ids      = [aws_security_group.public_group.id, aws_security_group.ssh_all.id]
   tags = {
     Name = "Testing"
   }
