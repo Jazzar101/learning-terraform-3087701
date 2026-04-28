@@ -46,8 +46,8 @@ resource "local_file" "infrastructure_tests" {
   content = templatefile("${path.module}/../roles/run_tests/templates/infrastructure_tests.py.tpl", {
     database_ip   = aws_instance.database_instance.private_ip
     web_app_ip    = aws_instance.web_app_instance.private_ip
-    monitoring_ip = aws_instance.monitoring_instance.public_ip
-    nginx_ip      = aws_instance.nginx_instance.public_ip
+    monitoring_ip = aws_instance.monitoring_instance.private_ip
+    nginx_ip      = aws_instance.nginx_instance.private_ip
   })
   filename = "../roles/run_tests/files/infrastructure_tests.py"
 }
