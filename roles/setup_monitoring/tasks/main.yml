@@ -50,10 +50,15 @@
     src: ../files/docker-dashboard.json
     dest: /opt/monitoring/dashboards/docker-dashboard.json
 
-- name: Copy Docker Compose
+- name: Copy Docker Compose and Config
   copy:
-    src: ../files/docker-compose.yml
-    dest: /opt/monitoring/docker-compose.yml
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - src: ../files/docker-compose.yml
+      dest: /opt/monitoring/docker-compose.yml
+    - src: ../files/loki-config.yml
+      dest: /opt/monitoring/loki-config.yml
 
 - name: Build and Start Containers
   command:

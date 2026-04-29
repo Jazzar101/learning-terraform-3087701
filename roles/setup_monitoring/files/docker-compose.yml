@@ -24,16 +24,16 @@ services:
       - /opt/monitoring/grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
       - /opt/monitoring/dashboards/:/etc/grafana/provisioning/dashboards-json:ro
 
-    loki:
-      image: grafana/loki:latest
-      container_name: loki
-      restart: always
-      command: -config.file=/etc/loki/loki-config.yml:ro
-      volumes:
-        - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
-        - loki-data:/loki
-      ports:
-        - "3100:3100"
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    restart: always
+    command: -config.file=/etc/loki/loki-config.yml
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki-data:/loki
+    ports:
+      - "3100:3100"
 
 volumes:
   grafana-data:
