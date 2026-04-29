@@ -130,3 +130,12 @@ resource "aws_security_group_rule" "allow_ssh_from_host_private" {
   cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
 }
 
+resource "aws_security_group_rule" "allow_promtail_from_host" {
+  description       = "Allows internal Promtail traffic from the NGINX Instance"
+  type              = "ingress"
+  security_group_id = aws_security_group.monitoring.id
+  from_port         = 3100
+  to_port           = 3100
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
+}

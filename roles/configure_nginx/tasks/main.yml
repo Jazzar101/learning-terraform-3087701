@@ -33,12 +33,12 @@
     owner: ubuntu
     force: true
   loop:
-    - src: ../files/docker-compose.yml
-      dest: /home/ubuntu/docker-compose.yml
-    - src: ../files/nginx.conf
-      dest: /home/ubuntu/nginx.conf
-    - src: ../files/promtail-config.yml
-      dest: /opt/promtail
+    - src: "../files/docker-compose.yml"
+      dest: "/home/ubuntu/docker-compose.yml"
+    - src: "../files/nginx.conf"
+      dest: "/home/ubuntu/nginx.conf"
+    - src: "../files/promtail-config.yml"
+      dest: "/home/ubuntu/promtail-config.yml"
 
 - name: Stop Existing Docker Containers
   command:
