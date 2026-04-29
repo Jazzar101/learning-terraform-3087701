@@ -71,4 +71,4 @@
 
   - name: Test Completion
     debug:
-      msg: "API tests completed successfully!"
+      msg: "All tests completed successfully!"

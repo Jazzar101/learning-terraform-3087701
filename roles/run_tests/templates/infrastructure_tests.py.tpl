@@ -157,7 +157,7 @@ class Test_Infrastructure:
             result = self.can_connect(instance.get("host"), port)
             assert result == instance.get("result")
 
-    def test_should_connect_to_instance_web_traffic(self):
+    def test_should_connect_to_instance_monitoring_tools(self):
         """
         Test Grafana and Prometheus ports only open on monitoring instance.
         """

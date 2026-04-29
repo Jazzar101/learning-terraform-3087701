@@ -67,6 +67,17 @@ resource "aws_security_group" "monitoring" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "ssh_from_testing" {
+  name   = "SSH From Testing"
+  vpc_id = aws_vpc.main_vpc.id
 }
 
 resource "aws_security_group_rule" "allow_directus" {
@@ -112,19 +123,10 @@ resource "aws_security_group_rule" "allow_node_metrics" {
 resource "aws_security_group_rule" "allow_ssh_from_host_private" {
   description       = "Allows internal SSH traffic from the Testing Instance"
   type              = "ingress"
-  security_group_id = aws_security_group.private_group.id
+  security_group_id = aws_security_group.ssh_from_testing.id
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
 }
 
-resource "aws_security_group_rule" "allow_ssh_from_host_public" {
-  description       = "Allows internal SSH traffic from the Testing Instance"
-  type              = "ingress"
-  security_group_id = aws_security_group.public_group.id
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
-}

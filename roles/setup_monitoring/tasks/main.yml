@@ -49,7 +49,6 @@
   copy:
     src: ../files/docker-dashboard.json
     dest: /opt/monitoring/dashboards/docker-dashboard.json
-#13496
 
 - name: Copy Docker Compose
   copy:

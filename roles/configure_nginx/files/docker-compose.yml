@@ -8,3 +8,13 @@ services:
           - "80:80"
       volumes:
           - /home/ubuntu/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+    promtail:
+      image: grafana/promtail:latest
+      container_name: promtail
+      command: -config.file=/etc/promtail/promtail-config.yml
+      volumes:
+        - ./promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+        - /var/log/nginx:/var/log/nginx:ro
+        - /var/lib/promtail:/tmp
+      restart: unless-stopped

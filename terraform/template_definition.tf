@@ -65,3 +65,11 @@ resource "local_file" "nginx_config" {
   })
   filename = "../roles/configure_nginx/files/nginx.conf"
 }
+
+resource "local_file" "promtail_config" {
+  content = templatefile("${path.module}/../roles/configure_nginx/templates/promtail-config.yml.tpl", {
+    monitoring_ip = aws_instance.monitoring_instance.private_ip
+  })
+  filename = "../roles/configure_nginx/files/promtail-config.yml"
+}
+

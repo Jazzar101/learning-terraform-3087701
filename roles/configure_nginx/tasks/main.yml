@@ -1,10 +1,4 @@
 ---
-- name: Update And Upgrade Apt Packages
-  apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 86400
-
 - name: Install Docker Components
   package:
     name:
@@ -24,17 +18,27 @@
     groups: docker
     append: yes
 
+- name: Create Log Directories
+  file:
+   path: "{{ item }}"
+   state: directory
+  loop:
+    - "/opt/promtail"
+    - "/var/lib/promtail"
+
 - name: Copy Over Nginx Files
   copy:
     src: "{{ item.src }}"
-    dest: "/home/ubuntu/{{ item.dest }}"
+    dest: "{{ item.dest }}"
     owner: ubuntu
     force: true
   loop:
     - src: ../files/docker-compose.yml
-      dest: docker-compose.yml
+      dest: /home/ubuntu/docker-compose.yml
     - src: ../files/nginx.conf
-      dest: nginx.conf
+      dest: /home/ubuntu/nginx.conf
+    - src: ../files/promtail-config.yml
+      dest: /opt/promtail
 
 - name: Stop Existing Docker Containers
   command:

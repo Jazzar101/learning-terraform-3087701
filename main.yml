@@ -7,30 +7,11 @@
         name: provision_terraform
         tasks_from: main.yml
 
-- name: Install Nginx Proxy
-  hosts: nginx
-  become: yes
-  gather_facts: no
-  tasks:
-    - name: Wait For Nginx
-      wait_for_connection:
-        delay: 5
-        timeout: 60
-
-    - name: Now Gather Facts
-      setup:
-
-    - name: Configure Nginx Proxy
-      include_role:
-        name: configure_nginx
-        tasks_from: main.yml
-
 - name: Update All Machines
   hosts: all
   become: true
   gather_facts: no
   tasks:
-
     - name: Wait For All Instances
       wait_for_connection:
         delay: 10
@@ -41,6 +22,15 @@
         upgrade: yes
         update_cache: yes
         cache_valid_time: 86400
+
+- name: Install Nginx Proxy
+  hosts: nginx
+  become: yes
+  tasks:
+    - name: Configure Nginx Proxy
+      include_role:
+        name: configure_nginx
+        tasks_from: main.yml
 
 - name: Deploy Services
   hosts: web_app, database
@@ -78,10 +68,3 @@
         name: run_tests
         tasks_from: main.yml
 
-#- name: Clean up
-# hosts: localhost
-# tasks:
-#    - name: Destroy Instances
-#      command:
-#        cmd: terraform destroy --auto-approve
-#        chdir: /home/jared/learning-terraform/terraform
