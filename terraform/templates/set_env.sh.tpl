@@ -1,5 +1,5 @@
-export monitoring=${monitoring_ip}
-export database=${database_ip}
-export app=${web_app_ip}
-export testing=${testing_ip}
-export nginx=${nginx_ip}
+export monitoring=ubuntu@${monitoring_ip}
+export database=ubuntu@${database_ip}
+export app=ubuntu@${web_app_ip}
+export testing=ubuntu@${testing_ip}
+export nginx=ubuntu@${nginx_ip}

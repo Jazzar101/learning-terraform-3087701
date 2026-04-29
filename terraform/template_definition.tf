@@ -14,8 +14,8 @@ resource "local_file" "env_file" {
     database_ip   = aws_instance.database_instance.private_ip
     web_app_ip    = aws_instance.web_app_instance.private_ip
     testing_ip    = aws_instance.testing_instance.public_ip
-    monitoring_ip = aws_instance.monitoring_instance.public_ip
-    nginx_ip      = aws_instance.nginx_instance.public_ip
+    monitoring_ip = aws_instance.monitoring_instance.private_ip
+    nginx_ip      = aws_instance.nginx_instance.private_ip
   })
   filename = "${path.module}/../set_env.sh"
 }
