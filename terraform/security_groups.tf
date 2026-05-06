@@ -80,6 +80,16 @@ resource "aws_security_group" "ssh_from_testing" {
   vpc_id = aws_vpc.main_vpc.id
 }
 
+resource "aws_security_group_rule" "allow_logging" {
+  description       = "Allows logs to be pushed from defined IPs"
+  type              = "ingress"
+  security_group_id = aws_security_group.monitoring.id
+  from_port         = 3100
+  to_port           = 3100
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
+}
+
 resource "aws_security_group_rule" "allow_directus" {
   description       = "Allow Web Traffic From NGINX"
   type              = "ingress"
@@ -128,14 +138,4 @@ resource "aws_security_group_rule" "allow_ssh_from_host_private" {
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
-}
-
-resource "aws_security_group_rule" "allow_promtail_from_host" {
-  description       = "Allows internal Promtail traffic from the NGINX Instance"
-  type              = "ingress"
-  security_group_id = aws_security_group.monitoring.id
-  from_port         = 3100
-  to_port           = 3100
-  protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
 }
