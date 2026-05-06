@@ -1,3 +1,9 @@
+#############################################
+#                                           #
+#               NGINX Instance              #
+#                                           #
+#############################################
+
 resource "aws_security_group" "public_group" {
   name   = "Public Group"
   vpc_id = aws_vpc.main_vpc.id
@@ -17,18 +23,11 @@ resource "aws_security_group" "public_group" {
   }
 }
 
-resource "aws_security_group" "private_group" {
-  name   = "Private Group"
-  vpc_id = aws_vpc.main_vpc.id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-}
+#############################################
+#                                           #
+#           Testing Instance                #
+#                                           #
+#############################################
 
 resource "aws_security_group" "ssh_all" {
   name   = "SSH All"
@@ -49,23 +48,16 @@ resource "aws_security_group" "ssh_all" {
 
 }
 
+
+#############################################
+#                                           #
+#           Monitoring Instance             #
+#                                           #
+#############################################
+
 resource "aws_security_group" "monitoring" {
   name   = "Monitoring"
   vpc_id = aws_vpc.main_vpc.id
-
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 9090
-    to_port     = 9090
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   egress {
     from_port   = 0
@@ -73,11 +65,6 @@ resource "aws_security_group" "monitoring" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "aws_security_group" "ssh_from_testing" {
-  name   = "SSH From Testing"
-  vpc_id = aws_vpc.main_vpc.id
 }
 
 resource "aws_security_group_rule" "allow_logging" {
@@ -88,6 +75,66 @@ resource "aws_security_group_rule" "allow_logging" {
   to_port           = 3100
   protocol          = "tcp"
   cidr_blocks       = ["${aws_instance.nginx_instance.private_ip}/32"]
+}
+
+resource "aws_security_group_rule" "allow_grafana" {
+  description       = "Allows Grafana connections from anywhere"
+  type              = "ingress"
+  security_group_id = aws_security_group.monitoring.id
+  from_port         = 3000
+  to_port           = 3000
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "allow_prometheus" {
+  description       = "Allows Prometheus connections from anywhere"
+  type              = "ingress"
+  security_group_id = aws_security_group.monitoring.id
+  from_port         = 9090
+  to_port           = 9090
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+#############################################
+#                                           #
+#               SSH Rules                   #
+#                                           #
+#############################################
+
+resource "aws_security_group" "ssh_from_testing" {
+  name   = "SSH From Testing"
+  vpc_id = aws_vpc.main_vpc.id
+}
+
+resource "aws_security_group_rule" "allow_ssh_from_host_private" {
+  description       = "Allows internal SSH traffic from the Testing Instance"
+  type              = "ingress"
+  security_group_id = aws_security_group.ssh_from_testing.id
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
+}
+
+#############################################
+#                                           #
+#           Private Instances               #
+#                                           #
+#############################################
+
+resource "aws_security_group" "private_group" {
+  name   = "Private Group"
+  vpc_id = aws_vpc.main_vpc.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }
 
 resource "aws_security_group_rule" "allow_directus" {
@@ -128,14 +175,4 @@ resource "aws_security_group_rule" "allow_node_metrics" {
   to_port           = 9100
   protocol          = "tcp"
   cidr_blocks       = ["${aws_instance.monitoring_instance.private_ip}/32"]
-}
-
-resource "aws_security_group_rule" "allow_ssh_from_host_private" {
-  description       = "Allows internal SSH traffic from the Testing Instance"
-  type              = "ingress"
-  security_group_id = aws_security_group.ssh_from_testing.id
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["${aws_instance.testing_instance.private_ip}/32"]
 }
