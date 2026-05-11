@@ -2,7 +2,7 @@
 - name: Terraform Plan
   command:
     cmd: terraform plan -no-color
-    chdir: /home/jared/learning-terraform/terraform
+    chdir: ~/learning-terraform/terraform
   register: terraform_plan
 
 - name: Debug Terraform
@@ -12,7 +12,7 @@
 - name: Terraform Apply
   command:
     cmd: terraform apply --auto-approve
-    chdir: /home/jared/learning-terraform/terraform
+    chdir: ~/learning-terraform/terraform
 
 - name: Refresh Inventory
   meta: refresh_inventory
