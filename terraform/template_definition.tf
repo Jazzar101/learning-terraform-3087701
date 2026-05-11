@@ -6,7 +6,7 @@ resource "local_file" "inventory" {
     monitoring_ip = aws_instance.monitoring_instance.private_ip
     nginx_ip      = aws_instance.nginx_instance.private_ip
   })
-  filename = "/etc/ansible/hosts"
+  filename = "../hosts"
 }
 
 resource "local_file" "env_file" {
