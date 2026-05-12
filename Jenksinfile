@@ -1,0 +1,87 @@
+pipeline {
+
+  environment {
+    AWS_DEFAULT_REGION = 'eu-west-2'
+    TF_IN_AUTOMATION   = 'true'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Terraform Validate') {
+      steps {
+        dir('terraform') {
+          sh '''
+             terraform init
+             terraform validate
+          '''
+        }
+      }
+    }
+
+    stage('Terraform Plan') {
+      steps {
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'Amazon-AWS',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )
+        ]) {
+          dir('terraform') {
+            sh 'terraform plan -out=tfplan'
+          }
+        }
+      }
+    }
+
+    stage('Terraform Apply') {
+      steps {
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'Amazon-AWS',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )
+        ]) {
+          dir('terraform') {
+            sh 'terraform apply -auto-approve tfplan'
+          }
+        }
+      }
+    }
+
+    stage('Ansible Deploy') {
+      steps {
+        withCredentials([
+          file(credentialsId: 'ssh-key-file', variable: 'SERVER_KEY')
+        ]) {
+          dir('ansible') {
+            sh '''
+              chmod 600 "$SSH_KEY_FILE"
+              ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml
+            '''
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'Tearing down'
+      terraform destroy --auto-approve
+      echo 'Pipeline finished'
+    }
+    failure {
+      echo 'Pipeline failed'
+    }
+    success {
+      echo 'Pipeline succeeded'
+    }
+  }
+}
