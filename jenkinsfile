@@ -58,10 +58,10 @@ pipeline {
     stage('Ansible Deploy') {
       steps {
         withCredentials([
-          file(credentialsId: 'ssh-key-file', variable: 'SERVER_KEY')
+          file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
         ]) {
           sh '''
-            chmod 600 "$SSH_KEY_FILE"
+            chmod 600 "$SERVER_KEY"
             ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml
           '''
         }
