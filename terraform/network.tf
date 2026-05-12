@@ -90,7 +90,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 }
 
 resource "aws_key_pair" "main_key" {
-  key_name   = "id_rsa"
+  key_name   = "id_rsa.pub"
   public_key = var.main_key
 }
 
