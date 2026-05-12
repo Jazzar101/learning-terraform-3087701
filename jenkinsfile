@@ -33,7 +33,7 @@ pipeline {
           )
         ]) {
           dir('terraform') {
-            sh 'terraform plan -out=tfplan'
+            sh 'terraform plan -out=tfplan -no-color'
           }
         }
       }
@@ -49,7 +49,7 @@ pipeline {
           )
         ]) {
           dir('terraform') {
-            sh 'terraform apply -auto-approve tfplan'
+            sh 'terraform apply -auto-approve tfplan -no-color'
           }
         }
       }
