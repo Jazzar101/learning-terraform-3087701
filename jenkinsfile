@@ -17,10 +17,8 @@ pipeline {
     stage('Terraform Validate') {
       steps {
         dir('terraform') {
-          sh '''
-             terraform init
-             terraform validate
-          '''
+          sh 'terraform init'
+          sh 'terraform validate'
         }
       }
     }
@@ -76,7 +74,18 @@ pipeline {
   post {
     always {
       echo 'Tearing down'
-      terraform destroy --auto-approve
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'Amazon-AWS',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )
+        ]) {
+          dir('terraform') {
+            sh 'terraform destroy --auto-approve'
+          }
+        }
+
       echo 'Pipeline finished'
     }
     failure {
