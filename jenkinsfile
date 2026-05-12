@@ -60,12 +60,10 @@ pipeline {
         withCredentials([
           file(credentialsId: 'ssh-key-file', variable: 'SERVER_KEY')
         ]) {
-          dir('ansible') {
-            sh '''
-              chmod 600 "$SSH_KEY_FILE"
-              ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml
-            '''
-          }
+          sh '''
+            chmod 600 "$SSH_KEY_FILE"
+            ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml
+          '''
         }
       }
     }
@@ -82,7 +80,7 @@ pipeline {
           )
         ]) {
           dir('terraform') {
-            sh 'terraform destroy --auto-approve'
+            sh 'terraform destroy --auto-approve -no-color'
           }
         }
 
