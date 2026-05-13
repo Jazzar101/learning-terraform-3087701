@@ -54,7 +54,15 @@ pipeline {
         }
       }
     }
-
+    stage('Get Bastion IP')
+      steps {
+        dir('terraform') {
+            script {
+                env.TESTING_IP = sh(script: 'terraform output -raw testing_public_ip', returnStdout: true).trim()
+            }
+        }
+      }
+    }
     stage('Ansible Deploy') {
       steps {
         withCredentials([
@@ -62,7 +70,7 @@ pipeline {
         ]) {
           sh '''
             chmod 600 "$SERVER_KEY"
-            ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml -v
+            ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml ansible_ssh_common_args='-o ProxyJump=ubuntu@$TESTING_IP' -v
           '''
         }
       }
