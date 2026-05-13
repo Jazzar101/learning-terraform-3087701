@@ -60,7 +60,8 @@ pipeline {
           file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
         ]) {
           sh '''
-            cp $SERVER_KEY .
+            cp "$SERVER_KEY" "./key.pem"
+            ls -la
             chmod 600 "$SERVER_KEY"
             ansible-playbook main.yml -vvv"
           '''
