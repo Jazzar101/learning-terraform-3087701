@@ -1,5 +1,5 @@
 [database]
-database ansible_host=${database_ip} ansible_ssh_private_key_file=./key.pem ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'
+database ansible_host=${database_ip} ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'
 
 [web_app]
 app ansible_host=${web_app_ip} ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@${testing_ip}'

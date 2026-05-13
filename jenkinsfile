@@ -61,7 +61,7 @@ pipeline {
         ]) {
           sh '''
             chmod 600 "$SERVER_KEY"
-            ansible-playbook --private-key="$SERVER_KEY" main.yml -vvv
+            ansible-playbook --private-key="$SERVER_KEY" main.yml -vv
           '''
         }
       }
