@@ -1,23 +1,13 @@
 ---
-#- name: Provision Virtual Machines
-#  hosts: localhost
-#  tasks:
-#    - name: Provision Terraform
-#      include_role:
-#        name: provision_terraform
-#        tasks_from: main.yml
 - name: Update All Machines
   hosts: all
   become: true
   gather_facts: no
   tasks:
-    - name: Refresh Inventory
-      meta: refresh_inventory
-
     - name: Wait For All Instances
       wait_for_connection:
         delay: 10
-        timeout: 360
+        timeout: 180
 
     - name: Update And Upgrade Apt Packages
       apt:
