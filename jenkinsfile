@@ -60,9 +60,9 @@ pipeline {
           file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
         ]) {
           sh '''
-            ls -la "$SERVER_KEY"
+            cat $SERVER_KEY >> key.pem
             chmod 600 "$SERVER_KEY"
-            ansible-playbook --private-key "$SERVER_KEY" main.yml -vvv --ssh-extra-args="-i $SERVER_KEY"
+            ansible-playbook --private-key "$SERVER_KEY" main.yml -vvv"
           '''
         }
       }
