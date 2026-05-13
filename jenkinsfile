@@ -18,7 +18,7 @@ pipeline {
       steps {
         dir('terraform') {
           sh 'terraform init'
-          sh 'terraform validate'
+          sh 'terraform validate -no-color'
         }
       }
     }
@@ -70,7 +70,7 @@ pipeline {
         ]) {
           sh '''
             chmod 600 "$SERVER_KEY"
-            ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml ansible_ssh_common_args='-o ProxyJump=ubuntu@$TESTING_IP' -v
+            ansible-playbook --private-key "$SERVER_KEY" main.yml -v
           '''
         }
       }
