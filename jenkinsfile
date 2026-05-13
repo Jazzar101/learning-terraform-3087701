@@ -54,7 +54,7 @@ pipeline {
         }
       }
     }
-    stage('Get Bastion IP')
+    stage('Get Bastion IP') {
       steps {
         dir('terraform') {
             script {
