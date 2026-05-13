@@ -50,6 +50,7 @@ pipeline {
         ]) {
           dir('terraform') {
             sh 'terraform apply -auto-approve tfplan -no-color'
+            sh 'cat hosts'
           }
         }
       }
