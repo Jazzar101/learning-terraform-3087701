@@ -50,7 +50,6 @@ pipeline {
         ]) {
           dir('terraform') {
             sh 'terraform apply -auto-approve tfplan -no-color'
-            sh 'cat hosts'
           }
         }
       }
@@ -62,6 +61,7 @@ pipeline {
           file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
         ]) {
           sh '''
+            cat hosts
             chmod 600 "$SERVER_KEY"
             ansible-playbook -i hosts --private-key "$SERVER_KEY" main.yml
           '''
