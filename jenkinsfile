@@ -60,9 +60,9 @@ pipeline {
           file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
         ]) {
           sh '''
-            chmod 600 "$SERVER_KEY"
-            chown jenkins:jenkins "$SERVER_KEY"
-            ansible-playbook --private-key="$SERVER_KEY" main.yml -vvv
+            cp "$SERVER_KEY" ~/.ssh/
+            chmod 600 ~/.ssh/id_rsa
+            ansible-playbook --private-key=~/.ssh/id_rsa main.yml -vvv
           '''
         }
       }
