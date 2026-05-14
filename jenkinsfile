@@ -10,6 +10,11 @@ pipeline {
   }
 
   stages {
+    stage('Setup Environment') {
+      agent {
+            docker { image 'ghcr.io/jazzar101/infra-runner' }
+      }
+    }
     stage('Checkout') {
       steps {
         checkout scm
