@@ -2,6 +2,10 @@ pipeline {
 
   agent { label 'infra-runner' }
 
+  triggers {
+    pollSCM('H/5 * * * *')
+  }
+
   environment {
     AWS_DEFAULT_REGION = 'eu-west-2'
     TF_IN_AUTOMATION   = 'true'
