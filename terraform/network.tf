@@ -89,8 +89,8 @@ resource "aws_nat_gateway" "nat_gateway" {
   }
 }
 
-resource "aws_key_pair" "main_key" {
-  key_name   = "id_rsa"
-  public_key = var.main_key
-}
+#resource "aws_key_pair" "main_key" {
+#  key_name   = "id_rsa"
+#  public_key = var.main_key
+#}
 
