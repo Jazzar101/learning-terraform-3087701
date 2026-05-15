@@ -8,13 +8,8 @@ pipeline {
   }
 
   stages {
-//    stage('Checkout') {
-//      steps {
-//        checkout scm
-//      }
-//    }
 
-    stage('Terraform Validate') {
+    stage('Terraform Init & Validate') {
       steps {
         dir('terraform') {
           sh 'terraform init'
