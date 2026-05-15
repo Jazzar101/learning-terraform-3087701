@@ -7,12 +7,12 @@ pipeline {
     TF_IN_AUTOMATION   = 'true'
   }
 
-#  stages {
-#    stage('Checkout') {
-#      steps {
-#        checkout scm
-#      }
-#    }
+  stages {
+//    stage('Checkout') {
+//      steps {
+//        checkout scm
+//      }
+//    }
 
     stage('Terraform Validate') {
       steps {
