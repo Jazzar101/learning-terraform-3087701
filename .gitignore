@@ -8,3 +8,5 @@ roles/run_tests/tasks/
 roles/configure_nginx/files/nginx.conf
 roles/configure_nginx/files/promtail-config.yml
 set_env.sh
+
+jenkins/config/
