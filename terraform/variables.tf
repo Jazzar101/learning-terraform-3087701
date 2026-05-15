@@ -36,7 +36,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCUyID24uOKhFubzMHHovQPkDs4LaaQFg1a+PUhFuIp
 EOT
 }
 
-varialbe "aws_key" {
+variable "aws_key" {
   type    = string
   default = "id_rsa"
 }
