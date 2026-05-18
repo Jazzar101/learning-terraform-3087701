@@ -5,7 +5,7 @@ pipeline {
   parameters {
     choice(
       name: 'ANSIBLE_VERBOSITY',
-      choices: ['', '-v', '-vv', '-vvv', '-vvvv'],
+      choices: ["", "-v", "-vv", "-vvv", "-vvvv"],
       description: 'Ansible playbook verbosity level'
     )
   }
