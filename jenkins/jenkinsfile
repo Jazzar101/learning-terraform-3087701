@@ -4,7 +4,7 @@ pipeline {
 
   parameters {
     choice(
-      name: 'ANSIBLE_VERBOSITY'
+      name: 'ANSIBLE_VERBOSITY',
       choices: ['', '-v', '-vv', '-vvv', '-vvvv']
     )
   }
