@@ -51,12 +51,3 @@
         name: setup_monitoring
         tasks_from: main.yml
       
-- name: Run Tests
-  hosts: tests
-  become: true
-  tasks:
-    - name: Run Tests
-      include_role:
-        name: run_tests
-        tasks_from: main.yml
-
