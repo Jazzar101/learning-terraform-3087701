@@ -1,10 +1,10 @@
 .terraform*
 terraform.tfstate*
-roles/run_tests/files/run_tests.py
-roles/run_tests/tasks/main.yml
-roles/deploy_services/files/app-docker-compose.yml
-roles/run_tests/files/
-roles/run_tests/tasks/
-roles/configure_nginx/files/nginx.conf
-roles/configure_nginx/files/promtail-config.yml
+ansible/roles/run_tests/files/run_tests.py
+ansible/roles/run_tests/tasks/main.yml
+ansible/roles/deploy_services/files/app-docker-compose.yml
+ansible/roles/run_tests/files/
+ansible/roles/run_tests/tasks/
+ansible/roles/configure_nginx/files/nginx.conf
+ansible/roles/configure_nginx/files/promtail-config.yml
 set_env.sh
