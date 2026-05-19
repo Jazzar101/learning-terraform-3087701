@@ -1,4 +1,12 @@
 ---
+#- name: Provision Virtual Machines
+#  hosts: localhost
+#  tasks:
+#    - name: Provision Terraform
+#      include_role:
+#        name: provision_terraform
+#        tasks_from: main.yml
+
 - name: Update All Machines
   hosts: all
   become: true
@@ -7,7 +15,7 @@
     - name: Wait For All Instances
       wait_for_connection:
         delay: 10
-        timeout: 180
+        timeout: 360
 
     - name: Update And Upgrade Apt Packages
       apt:
@@ -51,3 +59,12 @@
         name: setup_monitoring
         tasks_from: main.yml
       
+- name: Run Tests
+  hosts: tests
+  become: true
+  tasks:
+    - name: Run Tests
+      include_role:
+        name: run_tests
+        tasks_from: main.yml
+
