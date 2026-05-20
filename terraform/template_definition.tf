@@ -53,7 +53,7 @@ resource "local_file" "infrastructure_tests" {
 }
 
 resource "local_file" "testing_tasks" {
-  content = templatefile("${path.module}/../roles/run_tests/templates/main.yml.tpl", {
+  content = templatefile("${path.module}/../ansible/roles/run_tests/templates/main.yml.tpl", {
     nginx_private_ip = aws_instance.nginx_instance.private_ip
   })
   filename = "${path.module}/../ansible/roles/run_tests/tasks/main.yml"
@@ -63,7 +63,7 @@ resource "local_file" "nginx_config" {
   content = templatefile("${path.module}/../ansible/roles/configure_nginx/templates/nginx.conf.tpl", {
     web_app_private_ip = aws_instance.web_app_instance.private_ip
   })
-  filename = "../ansible/roles/configure_nginx/files/nginx.conf"
+  filename = "${path.module}/../ansible/roles/configure_nginx/files/nginx.conf"
 }
 
 resource "local_file" "promtail_config" {
