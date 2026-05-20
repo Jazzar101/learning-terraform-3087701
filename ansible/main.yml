@@ -1,12 +1,4 @@
 ---
-#- name: Provision Virtual Machines
-#  hosts: localhost
-#  tasks:
-#    - name: Provision Terraform
-#      include_role:
-#        name: provision_terraform
-#        tasks_from: main.yml
-
 - name: Update All Machines
   hosts: all
   become: true
