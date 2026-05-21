@@ -1,6 +1,7 @@
 from ansible.module_utils.basic import AnsibleModule
 import boto3
 
+import json
 import os
 
 
@@ -13,11 +14,6 @@ class EC2Connection:
         """
         Initialises all the AWS services needed to access and check AWS instances.
         """
-        self.ec2_client = None
-        self.key_id = ""
-        self.secret_key = ""
-        self.region = ""
-        self.endpoint = "https://ec2.eu-west-2.amazonaws.com"
         self.ec2_client = None
         self.instance_details = []
 
@@ -39,7 +35,11 @@ class EC2Connection:
 
         try:
             self.__iterate_instances()
-            module.exit_json(changed=False, instances=self.instance_details)
+            module.exit_json(
+                changed=False,
+                instances=self.instance_details
+                )
+
         except Exception as e:
             module.fail_json(msg=str(e))
 
@@ -82,7 +82,7 @@ class EC2Connection:
                 for instance in reservation["Instances"]:
                     self.__get_running_instance_details(instance)
         if not self.instance_details:
-            self.instance_details = ["No running AWS EC2 instances found"]
+            self.instance_details = [{"msg": "No running AWS EC2 instances found"}]
 
     def __get_running_instance_details(self, instance):
         """
