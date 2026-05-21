@@ -9,12 +9,6 @@
         delay: 10
         timeout: 360
 
-    - name: Check EC2 Instances
-      describe_instances:
-        aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
-        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
-        region: "eu-west-2" 
-
     - name: Update And Upgrade Apt Packages
       apt:
         upgrade: yes
@@ -61,6 +55,12 @@
   hosts: tests
   become: true
   tasks:
+    - name: Check EC2 Instances
+      describe_instances:
+        aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+        region: "eu-west-2" 
+
     - name: Run Tests
       include_role:
         name: run_tests
