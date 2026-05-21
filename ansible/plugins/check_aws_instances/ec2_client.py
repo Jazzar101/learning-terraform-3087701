@@ -16,7 +16,7 @@ class EC2Connection:
         self.secret_key = ""
         self.region = ""
         self.endpoint = "https://ec2.eu-west-2.amazonaws.com"
-        self.ec2_client = boto3.client("ec2", region="eu-west-2")
+        self.ec2_client = boto3.client("ec2", region_name="eu-west-2")
         self.instance_details = []
 
     def describe_instances(self):
