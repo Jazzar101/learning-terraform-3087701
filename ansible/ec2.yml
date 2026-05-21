@@ -1,0 +1,10 @@
+- name: EC2 Instances
+  hosts: tests
+  become: true
+  tasks:
+    - name: Check EC2 Instances
+      describe_ec2_instances:
+        aws_access_key_id:
+        aws_secret_key: {{ lookup}}
+        region: "eu-west-2"
+
