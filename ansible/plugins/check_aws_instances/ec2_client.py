@@ -1,6 +1,5 @@
 import boto3
 
-import os
 import pprint
 
 class EC2Connection:
@@ -17,40 +16,49 @@ class EC2Connection:
         self.secret_key = ""
         self.region = ""
         self.endpoint = "https://ec2.eu-west-2.amazonaws.com"
-        self.__main()
+        self.ec2_client = boto3.client("ec2")
+        self.instance_details = []
 
-    def __main(self):
+    def describe_instances(self):
         """
-        Holds the main functionality and sequence of setting up the AWS EC2 connection
+        Returns the details of any running instances.
+
+        Returns:
+            str: Running AWS Instance Details
         """
-        self.ec2_client = boto3.client(
-            "ec2",
+        self.__iterate_instances()
+        return self.instance_details
 
-        )
-        self.__get_running_instance_ids()
-
-
-
-    def __get_running_instance_ids(self):
-        instances = []
+    def __iterate_instances(self):
+        """
+        Iterates through all recent instances in AWS EC2
+        """
         paginator = self.ec2_client.get_paginator("describe_instances")
         for page in paginator.paginate():
-        
             for reservation in page['Reservations']:
                 for instance in reservation['Instances']:
-                    if instance['State']['Name'] == "running":
-                        name = ""
-                        for tag in instance.get("Tags"):
-                            if tag["Key"] == "Name":
-                                name = tag["Value"]
-                        instances.append({
-                            "ID": instance["InstanceId"],
-                            "Name": name,
-                            "Type": instance["InstanceType"],
-                            "Private IP": instance.get("PrivateIpAddress"),
-                            "Public IP": instance.get("PublicIpAddress")
-                        })
-        pprint.pp(instances)
+                    self.__get_running_instance_details(instance)
+                    
+    def __get_running_instance_details(self, instance):
+        """
+        Filters out any running instances and grabs the details of them
+
+        Args:
+            instance (_type_): _description_
+        """
+        if instance['State']['Name'] == "running":
+            name = ""
+            for tag in instance.get("Tags"):
+                if tag["Key"] == "Name":
+                    name = tag["Value"]
+            details = {
+                "ID": instance["InstanceId"],
+                "Name": name,
+                "Type": instance["InstanceType"],
+                "Private IP": instance.get("PrivateIpAddress"),
+                "Public IP": instance.get("PublicIpAddress")
+            }
+            self.instance_details.append(pprint.pp(details))
 
 if __name__ == "__main__":
-    EC2Connection()
+    EC2Connection().describe_instances()
