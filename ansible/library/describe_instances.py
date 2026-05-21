@@ -27,9 +27,9 @@ class EC2Connection:
         Handles argument parsing from the ansible playbook and initialises the EC2 client.
         """
         args = {
-            "aws_access_key_id": {"type": "str", "required": True, "default": ""},
-            "aws_secret_key": {"type": "str", "required": True, "default": ""},
-            "region": {"type": "str", "required": True, "default": "eu-west-2"},
+            "aws_access_key_id": {"type": "str", "required": False, "default": ""},
+            "aws_secret_key": {"type": "str", "required": False, "default": "", "no_log": True},
+            "region": {"type": "str", "required": False, "default": "eu-west-2"},
         }
         module = AnsibleModule(argument_spec=args)
         aws_access_key_id = module.params["aws_access_key_id"]

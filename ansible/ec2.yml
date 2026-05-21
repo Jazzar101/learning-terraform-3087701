@@ -3,8 +3,12 @@
   become: true
   tasks:
     - name: Check EC2 Instances
-      describe_ec2_instances:
-        aws_access_key_id:
-        aws_secret_key: {{ lookup}}
+      describe_instances:
+        aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
         region: "eu-west-2"
+      register: ec2_output
 
+    - name: Show instances
+      debug:
+        var: ec2_output
