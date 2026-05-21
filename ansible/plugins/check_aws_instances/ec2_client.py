@@ -45,7 +45,7 @@ class EC2Connection:
         if not self.instance_details:
             print("No running AWS EC2 instaces found")
         else:
-            print("###### RUNNING AWS EC2 INSTANCES #####")
+            print("###### RUNNING AWS EC2 INSTANCES ######")
             for instance in self.instance_details:
                 pprint.pp(instance)
                     
