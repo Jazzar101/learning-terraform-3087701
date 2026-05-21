@@ -1,6 +1,7 @@
 import boto3
 
 import pprint
+import os
 
 class EC2Connection:
     """
@@ -16,7 +17,11 @@ class EC2Connection:
         self.secret_key = ""
         self.region = ""
         self.endpoint = "https://ec2.eu-west-2.amazonaws.com"
-        self.ec2_client = boto3.client("ec2", region_name="eu-west-2")
+        self.ec2_client = boto3.client("ec2",
+                                        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                                        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+                                        region_name="eu-west-2"
+                                       )
         self.instance_details = []
 
     def describe_instances(self):
@@ -38,6 +43,8 @@ class EC2Connection:
             for reservation in page['Reservations']:
                 for instance in reservation['Instances']:
                     self.__get_running_instance_details(instance)
+        if not self.instance_details:
+            print("No running AWS EC2 instaces found")
                     
     def __get_running_instance_details(self, instance):
         """
