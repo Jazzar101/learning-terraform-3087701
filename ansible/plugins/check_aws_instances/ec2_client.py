@@ -32,7 +32,6 @@ class EC2Connection:
             str: Running AWS Instance Details
         """
         self.__iterate_instances()
-        return self.instance_details
 
     def __iterate_instances(self):
         """
@@ -45,6 +44,10 @@ class EC2Connection:
                     self.__get_running_instance_details(instance)
         if not self.instance_details:
             print("No running AWS EC2 instaces found")
+        else:
+            print("###### RUNNING AWS EC2 INSTANCES #####")
+            for instance in self.instance_details:
+                pprint.pp(instance)
                     
     def __get_running_instance_details(self, instance):
         """
@@ -65,7 +68,7 @@ class EC2Connection:
                 "Private IP": instance.get("PrivateIpAddress"),
                 "Public IP": instance.get("PublicIpAddress")
             }
-            self.instance_details.append(pprint.pp(details))
+            self.instance_details.append(details)
 
 if __name__ == "__main__":
     EC2Connection().describe_instances()
