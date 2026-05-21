@@ -1,5 +1,5 @@
 - name: EC2 Instances
-  hosts: tests
+  hosts: localhost
   become: true
   tasks:
     - name: Check EC2 Instances

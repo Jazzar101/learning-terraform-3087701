@@ -1,14 +1,1 @@
-[database]
-database ansible_host=10.0.2.108 ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@13.40.177.115'
-
-[web_app]
-app ansible_host=10.0.2.211 ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@13.40.177.115'
-
-[tests]
-tests ansible_host=13.40.177.115 ansible_user=ubuntu
-
-[monitoring]
-monitoring ansible_host=10.0.1.10 ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@13.40.177.115'
-
-[nginx]
-nginx ansible_host=10.0.1.111 ansible_user=ubuntu ansible_ssh_common_args='-o ProxyJump=ubuntu@13.40.177.115'
+localhost 127.0.0.1

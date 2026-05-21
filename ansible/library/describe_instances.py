@@ -1,7 +1,6 @@
 from ansible.module_utils.basic import AnsibleModule
 import boto3
 
-import pprint
 import os
 
 
@@ -83,11 +82,7 @@ class EC2Connection:
                 for instance in reservation["Instances"]:
                     self.__get_running_instance_details(instance)
         if not self.instance_details:
-            print("No running AWS EC2 instaces found")
-        else:
-            print("###### RUNNING AWS EC2 INSTANCES ######")
-            for instance in self.instance_details:
-                pprint.pp(instance)
+            self.instance_details = ["No running AWS EC2 instances found"]
 
     def __get_running_instance_details(self, instance):
         """
