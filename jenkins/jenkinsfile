@@ -64,7 +64,7 @@ pipeline {
     stage('Ansible Deploy') {
       steps {
         withCredentials([
-          file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
+          file(credentialsId: 'id_rsa', variable: 'SERVER_KEY'),
           usernamePassword(
             credentialsId: 'Amazon-AWS',
             usernameVariable: 'AWS_ACCESS_KEY_ID',
