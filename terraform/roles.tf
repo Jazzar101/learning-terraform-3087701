@@ -1,6 +1,6 @@
 // AWS SSM Policy
 resource "aws_iam_role" "ssm_role" {
-  name = "ec2-ssm-role"
+  name = "EC2-SSM"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
