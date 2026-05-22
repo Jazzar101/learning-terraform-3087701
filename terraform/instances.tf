@@ -4,6 +4,8 @@ resource "aws_instance" "database_instance" {
   key_name               = var.aws_key
   subnet_id              = aws_subnet.secret_subnet.id
   vpc_security_group_ids = [aws_security_group.private_group.id, aws_security_group.ssh_from_testing.id]
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
   tags = {
     Name = "Database"
   }
@@ -15,6 +17,8 @@ resource "aws_instance" "web_app_instance" {
   key_name               = var.aws_key
   subnet_id              = aws_subnet.secret_subnet.id
   vpc_security_group_ids = [aws_security_group.private_group.id, aws_security_group.ssh_from_testing.id]
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
   tags = {
     Name = "Web App"
   }
@@ -27,6 +31,8 @@ resource "aws_instance" "testing_instance" {
   subnet_id                   = aws_subnet.main_subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.ssh_all.id]
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
   tags = {
     Name = "Testing"
   }
@@ -39,6 +45,8 @@ resource "aws_instance" "monitoring_instance" {
   subnet_id                   = aws_subnet.main_subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.monitoring.id, aws_security_group.ssh_from_testing.id]
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
   tags = {
     Name = "Monitoring"
   }
@@ -51,6 +59,8 @@ resource "aws_instance" "nginx_instance" {
   subnet_id                   = aws_subnet.main_subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.public_group.id, aws_security_group.ssh_from_testing.id]
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+  
   tags = {
     Name = "Nginx"
   }
