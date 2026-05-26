@@ -4,10 +4,12 @@
   become: true
   gather_facts: no
   tasks:
-    - name: Wait For All Instances Ping
-      wait_for_connection:
-        delay: 10
-        timeout: 360
+    - name: Wait For All Instances SSM
+      command: echo "SSM Command Successful"
+      register: result
+      retries: 10
+      delay: 10
+      until: results is Successful
       vars:
         ansible_connection: aws_ssm
         ansible_aws_ssm_region: eu-west-2
