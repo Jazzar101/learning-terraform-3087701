@@ -3,8 +3,9 @@
   hosts: localhost
   tasks:
     - name: Install Boto3 Python Lib
-      pip:
-        name: boto3
+      package:
+        name: python3-boto3
+      state: present
 
 - name: Update All Machines
   hosts: all
