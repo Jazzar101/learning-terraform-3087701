@@ -57,6 +57,9 @@
   tasks:
     - name: Check EC2 Instances
       describe_instances:
+#        aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+#       aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+#        region: "eu-west-2" 
       register: instance_details
     
     - name: Display EC2 Instances
