@@ -28,6 +28,9 @@ variable "secret_subnet" {
   }
 }
 
+variable "ssm_role" {
+  name = "SSM-Connect"
+}
 
 variable "main_key" {
   description = "My public key"
