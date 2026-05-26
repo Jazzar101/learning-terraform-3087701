@@ -1,14 +1,16 @@
 ---
+- name: Install Local Dependencies
+  hosts: localhost
+  tasks:
+    - name: Install Boto3 Python Lib
+      pip:
+        name: boto3
+
 - name: Update All Machines
   hosts: all
   become: true
   gather_facts: no
   tasks:
-    - name: Install Boto3 python lib
-      pip:
-        name: boto3
-      delegate_to: 127.0.0.1
-
     - name: Wait For All Instances Ping
       wait_for_connection:
         delay: 10
