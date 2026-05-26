@@ -29,9 +29,9 @@ class EC2Connection:
         module = AnsibleModule(argument_spec=args)
         aws_access_key_id = module.params["aws_access_key_id"]
         aws_secret_key = module.params["aws_secret_key"]
-        region = module.params["region"]
+        aws_region = module.params["region"]
 
-        self.__init_client(aws_access_key_id, aws_secret_key, region)
+        self.__init_client(aws_access_key_id, aws_secret_key, aws_region)
 
         try:
             self.__iterate_instances()
@@ -43,7 +43,7 @@ class EC2Connection:
         except Exception as e:
             module.fail_json(msg=str(e))
 
-    def __init_client(self, aws_access_key_id="", aws_secret_key="", region=""):
+    def __init_client(self, aws_access_key_id="", aws_secret_key="", aws_region=""):
         """
         Initialises the AWS EC2 Client
 
@@ -55,11 +55,18 @@ class EC2Connection:
             region (str, optional): AWS region.
                 Defaults to system env variable, if set.
         """
+        try:
+            access_key = aws_access_key_id or os.getenv("AWS_ACCESS_KEY_ID")
+            secret_key = aws_secret_key or os.getenv("AWS_SECRET_ACCESS_KEY")
+            region = aws_region or os.getenv("REGION")
+        except Exception as e:
+            print("Could not fully validate all AWS credentials. Maybe one is missing? Error:", e)
+
         self.ec2_client = boto3.client(
             "ec2",
-            aws_access_key_id=aws_access_key_id or os.getenv("AWS_ACCESS_KEY_ID"),
-            aws_secret_access_key=aws_secret_key or os.getenv("AWS_SECRET_ACCESS_KEY"),
-            region_name=region or os.getenv("REGION"),
+            aws_access_key_id=access_key,
+            aws_secret_access_key=secret_key,
+            region_name=region
         )
 
     def describe_instances(self):
