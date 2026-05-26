@@ -29,7 +29,8 @@ variable "secret_subnet" {
 }
 
 variable "ssm_role" {
-  name = "SSM-Connect"
+    type = string
+  default = "SSM-Connect"
 }
 
 variable "main_key" {
