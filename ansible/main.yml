@@ -1,12 +1,4 @@
 ---
-- name: Install Local Dependencies
-  hosts: localhost
-  tasks:
-    - name: Install Boto3 Python Lib
-      package:
-        name: python3-boto3
-        state: present
-
 - name: Update All Machines
   hosts: all
   become: true

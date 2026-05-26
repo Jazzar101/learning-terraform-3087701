@@ -17,7 +17,8 @@ RUN apt-get install -y \
     python3-pip \
     ansible \
     openssh-client \
-    make
+    make \
+    python3-boto3
 
 
 RUN rm -rf /var/lib/apt/lists/*
