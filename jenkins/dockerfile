@@ -23,6 +23,12 @@ RUN apt-get install -y \
 
 RUN rm -rf /var/lib/apt/lists/*
 
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN rm -rf aws awscliv2.zip
+
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/1.15.2/terraform_1.15.2_linux_amd64.zip" \
     -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /usr/local/bin \
