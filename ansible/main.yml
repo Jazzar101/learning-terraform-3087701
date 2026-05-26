@@ -5,7 +5,7 @@
     - name: Install Boto3 Python Lib
       package:
         name: python3-boto3
-      state: present
+        state: present
 
 - name: Update All Machines
   hosts: all
