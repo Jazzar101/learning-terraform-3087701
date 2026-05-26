@@ -1,10 +1,10 @@
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/templates/inventory.tpl", {
-    database_ip   = aws_instance.database_instance.private_ip
-    web_app_ip    = aws_instance.web_app_instance.private_ip
-    testing_ip    = aws_instance.testing_instance.public_ip
-    monitoring_ip = aws_instance.monitoring_instance.private_ip
-    nginx_ip      = aws_instance.nginx_instance.private_ip
+    database_id   = aws_instance.database_instance.id
+    web_app_id    = aws_instance.web_app_instance.id
+    testing_id    = aws_instance.testing_instance.id
+    monitoring_id = aws_instance.monitoring_instance.id
+    nginx_id      = aws_instance.nginx_instance.id
   })
   filename = "${path.module}/../ansible/hosts"
 }
