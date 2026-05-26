@@ -1,5 +1,6 @@
 .terraform*
 terraform.tfstate*
+ansible/hosts
 ansible/roles/run_tests/files/run_tests.py
 ansible/roles/run_tests/tasks/main.yml
 ansible/roles/deploy_services/files/app-docker-compose.yml
