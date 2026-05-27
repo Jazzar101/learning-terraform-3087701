@@ -1,14 +1,20 @@
 [database]
-ansible_host=${database_id} ansible_user=ubuntu ansible_connection=community.aws.aws_ssm ansible_aws_ssm_region=eu-west-2 aws_ssm_bucket_name="infra-runner-bucket" aws_ssm_bucket_prefix="ansible-ssm-files"
+ansible_host=${database_id}
 
 [web_app]
-${web_app_id} ansible_user=ubuntu ansible_connection=community.aws.aws_ssm ansible_aws_ssm_region=eu-west-2
+${web_app_id}
 
 [tests]
-${testing_id} ansible_user=ubuntu ansible_connection=community.aws.aws_ssm ansible_aws_ssm_region=eu-west-2
+${testing_id}
 
 [monitoring]
-${monitoring_id} ansible_user=ubuntu ansible_connection=community.aws.aws_ssm ansible_aws_ssm_region=eu-west-2
+${monitoring_id}
 
 [nginx]
-${nginx_id} ansible_user=ubuntu ansible_connection=community.aws.aws_ssm ansible_aws_ssm_region=eu-west-2
+${nginx_id}  
+
+[all:vars]
+ansible_user=ubuntu
+ansible_connection=community.aws.aws_ssm
+ansible_aws_ssm_region=eu-west-2
+aws_ssm_bucket_name="infra-runner-bucket"
