@@ -10,9 +10,6 @@
       retries: 10
       delay: 10
       until: results is Successful
-      vars:
-        ansible_connection: aws_ssm
-        ansible_aws_ssm_region: eu-west-2
 
     - name: Update And Upgrade Apt Packages
       apt:
