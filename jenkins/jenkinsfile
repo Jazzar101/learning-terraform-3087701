@@ -75,7 +75,7 @@ pipeline {
             sh 'cp "$SERVER_KEY" ~/.ssh/'
             sh 'chmod 600 ~/.ssh/id_rsa'
             sh 'cat hosts'
-            sh "ansible-playbook --private-key=~/.ssh/id_rsa -i hosts main.yml ${params.ANSIBLE_VERBOSITY_LEVEL}"
+            sh "ansible-playbook main.yml ${params.ANSIBLE_VERBOSITY_LEVEL}"
           }
         }
       }
@@ -86,7 +86,7 @@ pipeline {
             file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
           ]) {
             dir('ansible') {
-              sh "ansible-playbook --private-key=~/.ssh/id_rsa -i hosts run_tests.yml ${params.ANSIBLE_VERBOSITY_LEVEL}"
+              sh "ansible-playbook run_tests.yml ${params.ANSIBLE_VERBOSITY_LEVEL}"
             }
           }
         }
