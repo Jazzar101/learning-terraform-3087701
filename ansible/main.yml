@@ -1,17 +1,14 @@
 ---
 - name: Update All Machines
   hosts: all
-  become_user: ubuntu
+  become: true
   tasks:
-    - name: Tests
-      command: whoami
-      
     - name: Wait For All Instances SSM
       command: echo "Ready"
       register: result
       retries: 10
-      delay: 10
-      until: result is Successful
+      delay: 5
+      until: result.rc == 0
 
     - name: Update And Upgrade Apt Packages
       apt:
