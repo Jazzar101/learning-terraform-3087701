@@ -3,6 +3,9 @@
   hosts: all
   become_user: ubuntu
   tasks:
+    - name: Tests
+      command: whoami
+      
     - name: Wait For All Instances SSM
       command: echo "Ready"
       register: result
