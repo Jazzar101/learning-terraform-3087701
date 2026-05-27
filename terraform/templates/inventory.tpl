@@ -1,5 +1,5 @@
 [database]
-ansible_host=${database_id}
+${database_id}
 
 [web_app]
 ${web_app_id}
