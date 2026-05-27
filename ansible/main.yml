@@ -3,12 +3,12 @@
   hosts: all
   become_user: ubuntu
   tasks:
-    - name: Wait For All Instances SSM
-      command: echo "Ready"
-      register: result
-      retries: 10
-      delay: 10
-      until: result is Successful
+    # - name: Wait For All Instances SSM
+    #   command: echo "Ready"
+    #   register: result
+    #   retries: 10
+    #   delay: 10
+    #   until: result is Successful
 
     - name: Update And Upgrade Apt Packages
       apt:
