@@ -1,7 +1,7 @@
 ---
 - name: Update All Machines
   hosts: all
-  become: true
+  become: ubuntu
   tasks:
     - name: Wait For All Instances SSM
       command: echo "Ready"
