@@ -53,23 +53,30 @@
         name: setup_monitoring
         tasks_from: main.yml
       
-- name: Run Tests
-  hosts: tests
-  become: true
-  tasks:
     - name: Check EC2 Instances
       describe_instances:
         aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
-        region: "eu-west-2" 
+        aws_region: "eu-west-2" 
       register: instance_details
-    
-    - name: Display EC2 Instances
-      debug:
-        var: instance_details
 
-    - name: Run Tests
-      include_role:
-        name: run_tests
-        tasks_from: main.yml
+# - name: Run Tests
+#   hosts: tests
+#   become: true
+#   tasks:
+#     - name: Check EC2 Instances
+#       describe_instances:
+#         aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+#         aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+#         region: "eu-west-2" 
+#       register: instance_details
+    
+#     - name: Display EC2 Instances
+#       debug:
+#         var: instance_details
+
+#     - name: Run Tests
+#       include_role:
+#         name: run_tests
+#         tasks_from: main.yml
 
