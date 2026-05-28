@@ -17,4 +17,4 @@ ${nginx_id}
 ansible_user=ubuntu
 ansible_connection=community.aws.aws_ssm
 ansible_aws_ssm_region=eu-west-2
-aws_ssm_bucket_name="infra-runner-bucket"
+ansible_aws_ssm_bucket_name="infra-runner-bucket"
