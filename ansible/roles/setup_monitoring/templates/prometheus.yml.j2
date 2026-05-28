@@ -6,13 +6,13 @@ scrape_configs:
   - job_name: node_exporter
     static_configs:
       - targets:
-          - "{{ hostvars['web_app'][0].private_ip }}:9100"
+          - "{{ hostvars[groups['web_app'][0]].private_ip }}:9100"
         labels:
           instance: Directus
           role: app
 
       - targets:
-          - "{{ hostvars['database'][0].private_ip }}:9100"
+          - "{{ hostvars[groups['database'][0]].private_ip }}:9100"
         labels:
           instance: Database
           role: database
@@ -22,13 +22,13 @@ scrape_configs:
   - job_name: cadvisor
     static_configs:
       - targets:
-          - "{{ hostvars['web_app'][0].private_ip }}:8080"
+          - "{{ hostvars[groups['web_app'][0]].private_ip }}:8080"
         labels:
           instance: Directus
           role: app
 
       - targets:
-          - "{{ hostvars['database'][0].private_ip }}:8080"
+          - "{{ hostvars[groups['database'][0]].private_ip }}:8080"
         labels:
           instance: Database
           role: database
