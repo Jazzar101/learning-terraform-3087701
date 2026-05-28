@@ -65,12 +65,12 @@ pipeline {
       steps {
         withCredentials([
           file(credentialsId: 'id_rsa', variable: 'SERVER_KEY'),
-/*          usernamePassword(
+          usernamePassword(
             credentialsId: 'Amazon-AWS',
             usernameVariable: 'AWS_ACCESS_KEY_ID',
             passwordVariable: 'AWS_SECRET_ACCESS_KEY'
           )
-*/        ]) {
+        ]) {
           dir('ansible') {
             sh 'cp "$SERVER_KEY" ~/.ssh/'
             sh 'chmod 600 ~/.ssh/id_rsa'
