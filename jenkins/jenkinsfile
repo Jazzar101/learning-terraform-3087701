@@ -84,6 +84,11 @@ pipeline {
         steps {
           withCredentials([
             file(credentialsId: 'id_rsa', variable: 'SERVER_KEY')
+            usernamePassword(
+              credentialsId: 'Amazon-AWS',
+              usernameVariable: 'AWS_ACCESS_KEY_ID',
+              passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+            )
           ]) {
             dir('ansible') {
               sh "ansible-playbook run_tests.yml ${params.ANSIBLE_VERBOSITY_LEVEL}"
