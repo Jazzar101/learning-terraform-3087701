@@ -4,20 +4,11 @@
   become: true
   gather_facts: false
   tasks:
-  
-    - name: Debug critical vars
-      debug:
-        msg:
-          - "host={{ inventory_hostname | default('NONE') }}"
-          - "connection={{ ansible_connection | default('NONE') }}"
-          - "region={{ ansible_aws_ssm_region | default('NONE') }}"
-          - "bucket={{ ansible_aws_ssm_bucket_name | default('NONE') }}"
-
     - name: Wait For All Instances SSM
       command: echo "Ready"
       register: result
-      retries: 20
-      delay: 5
+      retries: 30
+      delay: 10
       until: result.rc == 0
 
     - name: Update And Upgrade Apt Packages
