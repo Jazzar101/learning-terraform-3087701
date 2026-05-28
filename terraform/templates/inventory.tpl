@@ -1,17 +1,17 @@
 [database]
-${database_id}
+${database_id} private_ip=${database_ip}
 
 [web_app]
-${web_app_id}
+${web_app_id} private_ip=${web_app_ip}
 
 [tests]
-${testing_id}
+${testing_id} private_ip=${testing_ip}
 
 [monitoring]
-${monitoring_id}
+${monitoring_id} private_ip=${monitoring_ip}
 
 [nginx]
-${nginx_id}  
+${nginx_id} private_ip=${nginx_ip}
 
 [all:vars]
 ansible_user=ubuntu
