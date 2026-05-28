@@ -3,6 +3,7 @@
   hosts: all
   become: true
   gather_facts: false
+  serial: 1
   tasks:
     - name: Wait For All Instances SSM
       command: echo "Ready"
