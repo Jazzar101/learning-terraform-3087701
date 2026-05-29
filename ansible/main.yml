@@ -7,6 +7,8 @@
   tasks:
     - name: Wait For All Instances SSM
       command: echo "Ready"
+      ignore_unreachable: true
+      failed_when: false
       register: result
       retries: 40
       delay: 10
