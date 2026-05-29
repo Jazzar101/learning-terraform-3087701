@@ -8,7 +8,19 @@
     - pause:
         seconds: 10
   
-    - name: Wait For All Instances SSM
+    - name: Wait For Instances to Appear Online
+      delegate_to: localhost
+      retires: 10
+      delay: 5
+      register: ssm_status
+      until: "'Online' in ssm_status.stdout"
+      shell: |
+        aws ssm describe-instance-information \
+        --filters "Key=InstanceIds,Values={{ inventory_hostname }}" \
+        --query "InstanceInformationList[0].PingStatus" \
+        --output text
+
+    - name: Wait For All Instance Command Respoinse
       command: uptime
       ignore_unreachable: true
       failed_when: false
