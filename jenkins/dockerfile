@@ -35,6 +35,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 RUN chmod 755 $(which aws)
 
+RUN aws configure set region eu-west-2
+
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/1.15.2/terraform_1.15.2_linux_amd64.zip" \
     -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /usr/local/bin \
