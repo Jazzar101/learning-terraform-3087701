@@ -19,7 +19,7 @@
         --query "InstanceInformationList[0].PingStatus" \
         --output text
 
-    - name: Wait For All Instance Command Respoinse
+    - name: Wait For All Instance Command Response
       command: uptime
       ignore_unreachable: true
       failed_when: false
@@ -42,7 +42,16 @@
 - name: Install Nginx Proxy
   hosts: nginx
   become: yes
-  tasks:
+  tasks:  
+    - name: Wait for cloud-init
+      command: cloud-init status --wait
+
+    - name: Wait for apt lock
+      shell: |
+        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+          sleep 2
+        done
+
     - name: Configure Nginx Proxy
       include_role:
         name: configure_nginx
