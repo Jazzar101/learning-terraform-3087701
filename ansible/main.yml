@@ -33,6 +33,13 @@
   become: true
   serial: 2
   tasks:
+
+    - name: Wait for apt lock
+      shell: |
+        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+          sleep 2
+        done
+
     - name: Update And Upgrade Apt Packages
       apt:
         upgrade: yes
@@ -45,12 +52,6 @@
   tasks:  
     - name: Wait for cloud-init
       command: cloud-init status --wait
-
-    - name: Wait for apt lock
-      shell: |
-        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
-          sleep 2
-        done
 
     - name: Configure Nginx Proxy
       include_role:
