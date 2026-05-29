@@ -5,14 +5,17 @@
   gather_facts: false
   serial: 2
   tasks:
+    - pause:
+        seconds: 10
+  
     - name: Wait For All Instances SSM
-      command: echo "Ready"
+      command: uptime
       ignore_unreachable: true
       failed_when: false
       register: result
       retries: 40
       delay: 10
-      until: result.rc == 0
+      until: result is defined and result.rc is defined and result.rc == 0
 
     - name: Update And Upgrade Apt Packages
       apt:
