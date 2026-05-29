@@ -2,6 +2,7 @@
 - name: Update All Machines
   hosts: all
   become: false
+  gather_facts: false
   tasks:
     - pause:
         seconds: 10
