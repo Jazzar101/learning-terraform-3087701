@@ -27,7 +27,7 @@ RUN dpkg -i /tmp/session-manager-plugin.deb
 
 RUN rm /tmp/session-manager-plugin.deb
 
-RUN which session-manager-plugin
+RUN chmod 755 $(which session-manager-plugin)
 
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/1.15.2/terraform_1.15.2_linux_amd64.zip" \
     -o /tmp/terraform.zip \
