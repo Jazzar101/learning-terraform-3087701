@@ -1,13 +1,11 @@
 ---
 - name: Update All Machines
   hosts: all
-  become: true
-  gather_facts: false
-  serial: 2
+  become: false
   tasks:
     - pause:
         seconds: 10
-  
+
     - name: Wait For Instances to Appear Online
       delegate_to: localhost
       retries: 10
@@ -29,6 +27,11 @@
       delay: 10
       until: result is defined and result.rc is defined and result.rc == 0
 
+- name: Update All Machines
+  hosts: all
+  become: true
+  serial: 2
+  tasks:
     - name: Update And Upgrade Apt Packages
       apt:
         upgrade: yes
