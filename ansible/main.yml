@@ -10,7 +10,7 @@
   
     - name: Wait For Instances to Appear Online
       delegate_to: localhost
-      retires: 10
+      retries: 10
       delay: 5
       register: ssm_status
       until: "'Online' in ssm_status.stdout"
